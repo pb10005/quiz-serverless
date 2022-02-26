@@ -20,18 +20,27 @@ const state = reactive({
 const route = useRoute()
 
 const joinRoom = async () => {
+    if(!store.user) {
+        alert("部屋に参加できません。ログインしてください。")
+    }
+
     const { number, error } = await client.getMaxPlayerNumber({
         room_id: route.params.id
     })
+    console.log(number, error)
     if(error) {
         alert(error.message)
         return
     }
-    await client.joinRoom({
+    const res = await client.joinRoom({
         room_id: route.params.id,
         player_id: store.user.id,
         player_number: number + 1
     })
+
+    if(res.error) {
+        alert("部屋に参加できません。参加締め切り済の部屋です。")
+    }
 }
 
 const sendChat = async () => {
@@ -63,13 +72,13 @@ onMounted(async () => {
 })
 </script>
 <template>
-    <div v-if="state.room?.master_id !== store.user?.id && state.players?.filter(x => x.player_id === store.user?.id).length === 0" class="grid grid-cols-3 grid-rows-3 w-full min-h-screen">
-        <div class="col-start-2 col-span-1 row-start-2 row-span-1">
+    <div v-if="state.room?.master_id !== store.user?.id && state.players?.filter(x => x.player_id === store.user?.id).length === 0" class="md:grid md:grid-cols-3 md:grid-rows-3 w-full min-h-screen">
+        <div class="md:col-start-2 md:col-span-1 md:row-start-2 md:row-span-1">
             <p class="text-center font-bold text-xl">{{ state.room?.title }}</p>
             <button @click="joinRoom" class="rounded border-solid border-2 px-3 py-2 w-full">この部屋に参加する</button>
         </div>
     </div>
-    <div v-if="state.room?.master_id === store.user?.id || state.players?.filter(x => x.player_id === store.user?.id).length > 0" class="grid md:grid-cols-12">
+    <div v-if="state.room?.master_id === store.user?.id || state.players?.filter(x => x.player_id === store.user?.id).length > 0" class="md:grid md:grid-cols-12">
         <div class="md:col-start-1 md:col-span-3 p-2">
             <room-info :room="state.room"></room-info>
             <quiz-status :quiz="state.currentQuiz"></quiz-status>

@@ -263,13 +263,16 @@ export default {
         player_id,
         room_id
     }) {
-        await supabase
+        const { error } = await supabase
             .from('room_players')
             .insert({
                 player_number,
                 player_id,
                 room_id
             })
+        return {
+            error
+        }
     },
     async selectRoomPlayers({ room_id }){
         const { data, error } = await supabase
