@@ -128,6 +128,20 @@ onUnmounted(() => {
         <div class="md:col-start-4 md:col-span-9 p-2">
             <div class="text-lg font-bold">出題者専用画面</div>
             <form @submit.prevent="sendChat" class="mb-2" v-show="state.selectedTab === 'chat'">
+                <div v-if="state.currentQuiz">
+                    <div class="px-4 py-2 border-0 w-full">
+                        <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
+                        <div>
+                            {{state.currentQuiz.question}}
+                        </div>
+                    </div>
+                    <div class="px-4 py-2 border-0 w-full">
+                        <div class="font-bold">答え(参加者には非表示)</div>
+                        <div>
+                            {{state.currentQuizHidden?.answer}}
+                        </div>
+                    </div>
+                </div>
                 <input v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 w-full" placeholder="チャット(Enterで送信)" required/>
                 <div v-for="item in state.roomChats">
                 {{item.players.player_name}}> {{item.content}}
@@ -143,7 +157,7 @@ onUnmounted(() => {
                 <form v-if="state.currentQuiz?.status === '0'">
                     <!-- 出題中 -->
                     <div class="px-4 py-2 border-0 w-full">
-                        <div class="font-bold">問題文</div>
+                        <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
                         <div>
                             {{state.currentQuiz.question}}
                         </div>
@@ -159,7 +173,7 @@ onUnmounted(() => {
                 <form v-if="state.currentQuiz?.status === '1'">
                     <!-- 答えを出した後 -->
                     <div class="px-4 py-2 border-0 w-full">
-                        <div class="font-bold">問題文</div>
+                        <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
                         <div>
                             {{state.currentQuiz.question}}
                         </div>
