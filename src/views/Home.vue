@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { store } from '../store'
 import client from '../supabase-client'
 import { supabase } from '../supabase'
@@ -15,6 +16,8 @@ const state = reactive({
   subscriptions: [] 
 })
 
+const router = useRouter()
+
 const createRoom = async () => {
   const { data, error } = await client.createRoom(state.newRoom)
 }
@@ -27,6 +30,11 @@ const fetchData = async () => {
 }
 
 onMounted(async () => {
+  const username = await client.getUsername()
+  if(!username) {
+      router.push("/profile")
+      return
+  }
   await fetchData()
   state.subscriptions = [...state.subscriptions, await client.subscribeRooms(fetchData)]
 })

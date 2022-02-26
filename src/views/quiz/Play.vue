@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, onMounted, onUnmounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../../supabase'
 import { store } from '../../store'
 import client from '../../supabase-client'
@@ -18,6 +18,7 @@ const state = reactive({
 })
 
 const route = useRoute()
+const router = useRouter()
 
 const joinRoom = async () => {
     if(!store.user) {
@@ -27,7 +28,6 @@ const joinRoom = async () => {
     const { number, error } = await client.getMaxPlayerNumber({
         room_id: route.params.id
     })
-    console.log(number, error)
     if(error) {
         alert(error.message)
         return
@@ -62,6 +62,11 @@ const fetchData = async () => {
 }
 
 onMounted(async () => {
+  const username = await client.getUsername()
+  if(!username) {
+      router.push("/profile")
+      return
+  }
   await fetchData()
   state.subscriptions = [
       await client.subscribeRooms(fetchData),
