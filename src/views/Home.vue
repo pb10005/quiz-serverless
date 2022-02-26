@@ -30,10 +30,12 @@ const fetchData = async () => {
 }
 
 onMounted(async () => {
-  const username = await client.getUsername()
-  if(!username) {
-      router.push("/profile")
-      return
+  if(store.user) {
+    const username = await client.getUsername()
+    if(!username) {
+        router.push("/profile")
+        return
+    }
   }
   await fetchData()
   state.subscriptions = [...state.subscriptions, await client.subscribeRooms(fetchData)]

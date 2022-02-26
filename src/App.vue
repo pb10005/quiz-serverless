@@ -15,10 +15,12 @@ supabase.auth.onAuthStateChange(async (_, session) => {
     return
   }
   store.user = session.user
-  const username = await client.getUsername()
-  playerName.value = username || 'Anonymous'
-  if(!username)
-    router.push("/profile")
+  if(store.user) {
+    const username = await client.getUsername()
+    playerName.value = username || 'Anonymous'
+    if(!username)
+      router.push("/profile")
+  }
 })
 
 const signOut = async () => {

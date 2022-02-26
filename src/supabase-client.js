@@ -40,10 +40,11 @@ export default {
         }
     },
     async getUsername() {
-        const { data } = await supabase
+        const { data, error } = await supabase
             .from('players')
             .select('player_name')
             .match({ id: store.user?.id })
+        if(error) return null
         if(data.length === 0) return null
         return data[0].player_name
     },
