@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { reactive, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../../supabase'
 import { store } from '../../store'
@@ -91,6 +91,12 @@ onMounted(async () => {
     await client.subscribeRoomPlayers({ room_id: route.params.id }, fetchData)
   ]
 })
+
+onUnmounted(() => {
+  for(const s of state.subscriptions) {
+    supabase.removeSubscription(s)
+  }
+})
 </script>
 <template>
     <div class="grid md:grid-cols-12">
@@ -145,7 +151,7 @@ onMounted(async () => {
                     <div class="px-4 py-2 border-0 w-full">
                         <div class="font-bold">答え(参加者には非表示)</div>
                         <div>
-                            {{state.currentQuizHidden.answer}}
+                            {{state.currentQuizHidden?.answer}}
                         </div>
                     </div>
                     <button @click.prevent="showAnswer" class="rounded border-solid border-2 px-3 py-1">答えを出す</button>

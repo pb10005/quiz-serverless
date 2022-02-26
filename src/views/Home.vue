@@ -1,7 +1,8 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { store } from '../store'
 import client from '../supabase-client'
+import { supabase } from '../supabase'
 
 const state = reactive({
   newRoom: {
@@ -28,6 +29,12 @@ const fetchData = async () => {
 onMounted(async () => {
   await fetchData()
   state.subscriptions = [...state.subscriptions, await client.subscribeRooms(fetchData)]
+})
+
+onUnmounted(() => {
+  for(const s of state.subscriptions) {
+    supabase.removeSubscription(s)
+  }
 })
 </script>
 

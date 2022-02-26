@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { reactive, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { supabase } from '../../supabase'
 import { store } from '../../store'
@@ -69,6 +69,12 @@ onMounted(async () => {
       await client.subscribeRoomChats({ room_id: route.params.id }, fetchData),
       await client.subscribeRoomPlayers({ room_id: route.params.id }, fetchData)
     ]
+})
+
+onUnmounted(() => {
+  for(const s of state.subscriptions) {
+    supabase.removeSubscription(s)
+  }
 })
 </script>
 <template>
