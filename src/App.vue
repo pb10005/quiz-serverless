@@ -39,7 +39,7 @@ const signOut = async () => {
       </span>
       <span class="order-last space-x-1">
         <span>{{ store.user?.email ? `ログイン中: ${playerName}` : '未ログイン' }}</span>
-        <a v-if="store.user?.email" @click="signOut" class="border-0 bg-gray-200 hover:bg-gray-700 hover:text-white ease-in-out duration-300 ml-2 px-3 py-1">ログアウト</a>
+        <a v-if="store.user?.email" @click="signOut" class="cursor-pointer border-0 bg-gray-200 hover:bg-gray-700 hover:text-white ease-in-out duration-300 ml-2 px-3 py-1">ログアウト</a>
         <router-link v-else to="/login" class="border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1">ログイン</router-link>
       </span>
     </header>

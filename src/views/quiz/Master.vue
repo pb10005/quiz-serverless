@@ -62,6 +62,10 @@ const closeParticipation = async () => {
     await client.closeParticipation({ room_id: route.params.id })
 }
 
+const reopenParticipation = async () => {
+    await client.reopenParticipation({ room_id: route.params.id })
+}
+
 const copyUrl = () => {
     navigator.clipboard.writeText(`${host}/quiz/play/${route.params.id}`)
 }
@@ -122,7 +126,7 @@ onUnmounted(() => {
                     <input class="text-xs px-2 py-1 border-0 w-full" :value="`${host}/quiz/play/${route.params.id}`" /><br>
                     <button class="text-xs rounded border-0 bg-indigo-300 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" @click="copyUrl">コピー</button>
                 </div>
-                <p v-else class="rounded border-0 px-3 py-1 w-full">参加締め切り済</p>
+                <button v-else @click="reopenParticipation" class="rounded border-0 bg-indigo-300 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1 w-full">参加締め切りを解除</button>
             </div>
         </div>
         <div class="md:col-start-4 md:col-span-9 p-2">

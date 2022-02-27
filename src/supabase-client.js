@@ -111,6 +111,14 @@ export default {
             })
             .match({id: room_id})
     },
+    async reopenParticipation({ room_id }) {
+        await supabase
+            .from('rooms')
+            .update({
+                status: '0'
+            })
+            .match({id: room_id})
+    },
     async subscribeRooms(handleEvents) {
         const subscription = await supabase
             .from('rooms')

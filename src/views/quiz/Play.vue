@@ -21,6 +21,11 @@ const router = useRouter()
 const joinRoom = async () => {
     if(!store.user) {
         alert("部屋に参加できません。ログインしてください。")
+        return
+    }
+    if(!store.user.id) {
+        alert("部屋に参加できません。ログインしてください。")
+        return
     }
 
     const { number, error } = await client.getMaxPlayerNumber({
@@ -60,6 +65,13 @@ const fetchData = async () => {
 }
 
 onMounted(async () => {
+  await fetchData()
+  if(!store.user) {
+    return
+  }
+  if(!store.user.id) {
+    return
+  }
   if(store.user) {
     const username = await client.getUsername()
     if(!username) {
@@ -67,7 +79,6 @@ onMounted(async () => {
         return
     }
   }
-  await fetchData()
   state.subscriptions = [
       await client.subscribeRooms(fetchData),
       await client.subscribeQuizzes({ room_id: route.params.id }, fetchData),
