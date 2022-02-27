@@ -4,10 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../../supabase'
 import { store } from '../../store'
 import client from '../../supabase-client'
-import QuizStatus from '../../components/QuizStatus.vue'
-import PlayerList from '../../components/PlayerList.vue'
-import RoomInfo from '../../components/RoomInfo.vue'
-import RoomChat from '../../components/RoomChat.vue'
+import { QuizStatus, PlayerList, RoomChat, RoomInfo } from '../../components'
 
 const state = reactive({
     selectedTab: 'chat',
