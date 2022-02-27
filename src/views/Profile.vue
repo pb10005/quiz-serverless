@@ -34,9 +34,9 @@ onMounted(async () => {
     <div class="p-2">
         <div v-if="registeredName">ユーザー名を変更</div>
         <div v-else>ユーザー名を登録してはじめて出題、参加することができます</div>
-        <div>
-            <input type="email" v-model="playerName" class="px-4 py-2 h-10 border-0" placeholder="ユーザー名"/>
-            <button @click="setUsername" class="rounded border-solid border-2 ml-2 px-3 py-1">登録</button>
-        </div>
+        <form @submit.prevent="setUsername">
+            <input type="text" v-model="playerName" class="px-4 py-2 h-10 border-0 border-b-2 border-indigo-700" placeholder="ユーザー名" required />
+            <button class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 ml-2 px-3 py-1">登録</button>
+        </form>
     </div>
 </template>
