@@ -136,13 +136,13 @@ onUnmounted(() => {
                     <div class="p-2 border-0 w-full">
                         <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
                         <div>
-                            {{state.currentQuiz.question}}
+                            {{state.currentQuiz?.question}}
                         </div>
                     </div>
-                    <div class="px-4 py-2 border-0 w-full">
-                        <div class="font-bold">答え(参加者には非表示)</div>
+                    <div v-if="state.currentQuiz?.answer" class="p-2 border-0 w-full">
+                        <div class="font-bold">答え</div>
                         <div>
-                            {{state.currentQuizHidden?.answer}}
+                            {{state.currentQuiz?.answer}}
                         </div>
                     </div>
                 </div>
