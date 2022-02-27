@@ -12,6 +12,7 @@ const state = reactive({
     is_public: true 
   },
   rooms: [],
+  participatingRooms: [],
   ownRooms: [],
   subscriptions: [] 
 })
@@ -27,6 +28,8 @@ const fetchData = async () => {
   state.rooms = rooms.data
   const ownRooms = await client.selectOwnRooms()
   state.ownRooms = ownRooms.data 
+  const participatingRooms = await client.selectParticipatingRooms()
+  state.participatingRooms = participatingRooms.data 
 }
 
 onMounted(async () => {
@@ -72,6 +75,15 @@ onUnmounted(() => {
           <span class="order-last">
             <router-link class="order-last rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/master/${item.id}`" v-if="store.user?.id === item.master_id">出題者画面</router-link>
             <router-link class="order-last rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play/${item.id}`" v-else>参加</router-link>
+          </span>
+        </div>
+      </div>
+      <div class="text-lg font-bold">あなたが参加中の部屋</div>
+      <div class="divide-y">
+        <div v-for="item in state.participatingRooms" :key="item.id" class="flex justify-between p-2">
+          <span class="order-start">{{ item.rooms.title }} by {{ item.rooms.players.player_name }}</span>
+          <span class="order-last align-center space-x-1">
+            <router-link class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play/${item.room_id}`">参加する</router-link>
           </span>
         </div>
       </div>

@@ -92,6 +92,21 @@ export default {
             error
         }
     },
+    async selectParticipatingRooms() {
+        if(!store.user) {
+            return {
+                data: []
+            }
+        }
+        const { data, error } = await supabase
+            .from('room_players')
+            .select('room_id, rooms(title, players!rooms_master_id_fkey(player_name)), players(player_name)')
+            .match({ player_id: store.user?.id })
+        return {
+            data,
+            error
+        }
+    },
     async getRoomById(room_id) {
         const { data, error } = await supabase
             .from('rooms')
