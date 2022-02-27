@@ -27,6 +27,15 @@ export default {
             error
         }
     },
+    async resetPassword(password) {
+        const { user, error } = await supabase.auth.update({
+            password
+          })
+        return {
+            user,
+            error
+        }
+    },
     // profile
     async upsertProfile({ id, player_name }) {
         const { error } = await supabase
