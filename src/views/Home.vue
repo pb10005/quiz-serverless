@@ -83,7 +83,7 @@ onUnmounted(() => {
         <div v-for="item in state.participatingRooms" :key="item.id" class="flex justify-between p-2">
           <span class="order-start">{{ item.rooms.title }} by {{ item.rooms.players.player_name }}</span>
           <span class="order-last align-center space-x-1">
-            <router-link class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play/${item.room_id}`">参加する</router-link>
+            <router-link class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play/${item.room_id}`">入室</router-link>
           </span>
         </div>
       </div>
