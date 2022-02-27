@@ -12,7 +12,9 @@ defineProps({
 })
 </script>
 <template>
-    <div class="text-lg font-bold">出題状況</div>
-    <span v-if="quiz">第{{ quiz.quiz_number }}問: {{ quizStatus[quiz.status ] }}</span>
-    <span v-else>出題待ち</span>
+    <div class="font-bold">出題状況</div>
+    <div class="p-1">
+        <span v-if="quiz">第{{ quiz.quiz_number }}問: {{ quizStatus[quiz.status ] }}</span>
+        <span v-else>出題待ち</span>
+    </div>
 </template>

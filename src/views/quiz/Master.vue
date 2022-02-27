@@ -4,9 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../../supabase'
 import { store } from '../../store'
 import client from '../../supabase-client'
-import QuizStatus from '../../components/QuizStatus.vue'
-import PlayerList from '../../components/PlayerList.vue'
-import RoomInfo from '../../components/RoomInfo.vue'
+import { QuizStatus, PlayerList, RoomInfo, RoomChat } from '../../components'
 
 const state = reactive({
     selectedTab: 'chat',
@@ -71,8 +69,9 @@ const copyUrl = () => {
 const fetchData = async () => {
   const room = await client.getRoomById(route.params.id)
   state.room = room.data
-  if(state.room.master_id !== store.user.id) {
+  if(state.room.master_id !== store.user?.id) {
       router.push("/")
+      return
   }
   state.currentQuiz = await client.getCurrentQuiz({ room_id: route.params.id })
   if(state.currentQuiz)
@@ -113,23 +112,24 @@ onUnmounted(() => {
                 class="border-0 px-3 py-1 w-full">
                 出題
             </button>
-            <div class="mx-1">
+            <div class="mx-1 shadow rounded bg-white p-1">
                 <room-info :room="state.room"></room-info>
                 <quiz-status :quiz="state.currentQuiz"></quiz-status>
                 <player-list :players="state.players"></player-list>
                 <div v-if="state.room?.status === '0'">
-                    <button @click="closeParticipation" class="rounded border-solid border-2 px-3 py-1 w-full">参加締め切り</button>
-                    <div class="text-xs">{{ `参加用URLをコピーして募集しましょう: ${host}/quiz/play/${route.params.id}` }}</div>
-                    <button class="rounded border-solid border-2 px-3 py-1" @click="copyUrl">コピー</button>
+                    <button @click="closeParticipation" class="rounded border-0 bg-indigo-300 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1 w-full">参加締め切り</button>
+                    <div class="text-sm font-bold">参加用URL</div>
+                    <input class="text-xs px-2 py-1 border-0 w-full" :value="`${host}/quiz/play/${route.params.id}`" /><br>
+                    <button class="text-xs rounded border-0 bg-indigo-300 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" @click="copyUrl">コピー</button>
                 </div>
-                <p v-else class="text-center rounded border-solid border-2 px-3 py-1 w-full">参加締め切り済</p>
+                <p v-else class="rounded border-0 px-3 py-1 w-full">参加締め切り済</p>
             </div>
         </div>
         <div class="md:col-start-4 md:col-span-9 p-2">
             <div class="text-lg font-bold">出題者専用画面</div>
             <form @submit.prevent="sendChat" class="mb-2" v-show="state.selectedTab === 'chat'">
-                <div v-if="state.currentQuiz">
-                    <div class="px-4 py-2 border-0 w-full">
+                <div v-if="state.currentQuiz" class="bg-white rounded shadow p-2 mb-2">
+                    <div class="p-2 border-0 w-full">
                         <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
                         <div>
                             {{state.currentQuiz.question}}
@@ -142,19 +142,17 @@ onUnmounted(() => {
                         </div>
                     </div>
                 </div>
-                <input v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 w-full" placeholder="チャット(Enterで送信)" required/>
-                <div v-for="item in state.roomChats">
-                {{item.players.player_name}}> {{item.content}}
-                </div>
+                <input v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full" placeholder="チャット(Enterで送信)" required/>
+                <room-chat :masterId="state.room?.master_id" :roomChats="state.roomChats"></room-chat>
             </form>
             <div v-show="state.selectedTab === 'quiz'">
-                <form v-if="!state.currentQuiz || state.currentQuiz.status === '2'" @submit.prevent="submitQuiz">
+                <form v-if="!state.currentQuiz || state.currentQuiz.status === '2'" @submit.prevent="submitQuiz" class="bg-white rounded shadow p-2 mb-2">
                     <!-- 出題待ちまたはクイズ終了後 -->
-                    <textarea v-model="state.newQuiz.question" class="px-4 py-2 h-40 border-0 w-full" placeholder="問題"></textarea>
-                    <textarea v-model="state.newQuiz.answer" class="px-4 py-2 h-40 border-0 w-full" placeholder="答え"></textarea>
-                    <button class="rounded border-solid border-2 px-3 py-1">出題する</button>
+                    <textarea v-model="state.newQuiz.question" class="px-4 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full" placeholder="問題"></textarea>
+                    <textarea v-model="state.newQuiz.answer" class="px-4 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full" placeholder="答え"></textarea>
+                    <button class="rounded border-0 border-b-2 bg-indigo-300 hover:bg-indigo-700 hover:text-white px-3 py-1">出題する</button>
                 </form>
-                <form v-if="state.currentQuiz?.status === '0'">
+                <form v-if="state.currentQuiz?.status === '0'" class="bg-white rounded shadow mb-2 p-2">
                     <!-- 出題中 -->
                     <div class="px-4 py-2 border-0 w-full">
                         <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
@@ -168,9 +166,9 @@ onUnmounted(() => {
                             {{state.currentQuizHidden?.answer}}
                         </div>
                     </div>
-                    <button @click.prevent="showAnswer" class="rounded border-solid border-2 px-3 py-1">答えを出す</button>
+                    <button @click.prevent="showAnswer" class="rounded border-0 border-b-2 bg-indigo-300 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1">答えを出す</button>
                 </form>
-                <form v-if="state.currentQuiz?.status === '1'">
+                <form v-if="state.currentQuiz?.status === '1'" class="bg-white rounded shadow mb-2 p-2">
                     <!-- 答えを出した後 -->
                     <div class="px-4 py-2 border-0 w-full">
                         <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
@@ -184,7 +182,7 @@ onUnmounted(() => {
                             {{state.currentQuiz.answer}}
                         </div>
                     </div>
-                    <button @click.prevent="closeQuiz" class="rounded border-solid border-2 px-3 py-1">クイズを終了する</button>
+                    <button @click.prevent="closeQuiz" class="rounded border-0 border-b-2 bg-indigo-300 hover:bg-indigo-700 hover:text-white px-3 py-1">クイズを終了する</button>
                 </form>
             </div>
         </div>

@@ -7,8 +7,10 @@ defineProps({
 })
 </script>
 <template>
-    <div class="text-lg font-bold">参加者一覧</div>
-    <div v-for="item in players">
-        {{item.player_number}}: {{item.players.player_name}}
+    <div class="font-bold">参加者一覧</div>
+    <div class="divide-y p-1">
+        <div v-for="item in players" class="p-1 text-sm">
+            {{item.player_number}}: {{item.players.player_name}}
+        </div>
     </div>
 </template>

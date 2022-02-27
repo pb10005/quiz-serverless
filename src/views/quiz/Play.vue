@@ -7,6 +7,7 @@ import client from '../../supabase-client'
 import QuizStatus from '../../components/QuizStatus.vue'
 import PlayerList from '../../components/PlayerList.vue'
 import RoomInfo from '../../components/RoomInfo.vue'
+import RoomChat from '../../components/RoomChat.vue'
 
 const state = reactive({
     selectedTab: 'chat',
@@ -93,13 +94,15 @@ onUnmounted(() => {
     </div>
     <div v-if="state.room?.master_id === store.user?.id || state.players?.filter(x => x.player_id === store.user?.id).length > 0" class="md:grid md:grid-cols-12">
         <div class="md:col-start-1 md:col-span-3 p-2">
-            <room-info :room="state.room"></room-info>
-            <quiz-status :quiz="state.currentQuiz"></quiz-status>
-            <player-list :players="state.players"></player-list>
+            <div class="bg-white p-1 shadow rounded">
+                <room-info :room="state.room"></room-info>
+                <quiz-status :quiz="state.currentQuiz"></quiz-status>
+                <player-list :players="state.players"></player-list>
+            </div>
         </div>
         <div class="md:col-start-4 md:col-span-9 p-2">
             <div class="text-lg font-bold">参加者用画面</div>
-            <div v-if="state.currentQuiz">
+            <div v-if="state.currentQuiz" class="bg-white rounded shadow mb-2">
                 <div class="px-4 py-2 border-0 w-full">
                     <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
                     {{state.currentQuiz?.question}}
@@ -110,10 +113,8 @@ onUnmounted(() => {
                 </div>
             </div>
             <form @submit.prevent="sendChat" class="mb-2">
-                <input v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 w-full" placeholder="チャット(Enterで送信)" required/>
-                <div v-for="item in state.roomChats">
-                    {{item.players.player_name}}> {{item.content}}
-                </div>
+                <input v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full" placeholder="チャット(Enterで送信)" required/>
+                <room-chat :masterId="state.room?.master_id" :roomChats="state.roomChats"></room-chat>
             </form>
         </div>
     </div>

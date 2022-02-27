@@ -78,6 +78,11 @@ export default {
         }
     },
     async selectOwnRooms() {
+        if(!store.user) {
+            return {
+                data: []
+            }
+        }
         const { data, error } = await supabase
             .from('rooms')
             .select('id, title, status, master_id, players!rooms_master_id_fkey(player_name)')
