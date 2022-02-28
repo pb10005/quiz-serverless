@@ -13,6 +13,7 @@ const state = reactive({
         answer: ""
     },
     chat: "",
+    hinst: "",
     room: null,
     currentQuiz: null,
     currentQuizHidden: null,
@@ -48,6 +49,10 @@ const submitQuiz = async () => {
         answer: state.newQuiz.answer,
         quiz_number: number + 1
     })
+}
+
+const addHint = async () => {
+    await client.addHint({ quiz_id: state.currentQuiz.id, hint: state.hint })
 }
 
 const showAnswer = async () => {
@@ -133,15 +138,21 @@ onUnmounted(() => {
             <div class="text-lg font-bold">出題者専用画面</div>
             <form @submit.prevent="sendChat" class="mb-2" v-show="state.selectedTab === 'chat'">
                 <div v-if="state.currentQuiz" class="bg-white rounded shadow p-2 mb-2">
-                    <div class="p-2 border-0 w-full">
+                    <div class="px-4 py-2 border-0 w-full">
                         <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
-                        <div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
                             {{state.currentQuiz?.question}}
                         </div>
                     </div>
-                    <div v-if="state.currentQuiz?.answer" class="p-2 border-0 w-full">
+                    <div v-if="state.currentQuiz?.hint" class="px-4 py-2 border-0 w-full">
+                        <div class="font-bold">ヒント</div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
+                            {{state.currentQuiz.hint}}
+                        </div>
+                    </div>
+                    <div v-if="state.currentQuiz?.answer" class="px-4 py-2 border-0 w-full">
                         <div class="font-bold">答え</div>
-                        <div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
                             {{state.currentQuiz?.answer}}
                         </div>
                     </div>
@@ -152,7 +163,9 @@ onUnmounted(() => {
             <div v-show="state.selectedTab === 'quiz'">
                 <form v-if="!state.currentQuiz || state.currentQuiz.status === '2'" @submit.prevent="submitQuiz" class="bg-white rounded shadow p-2 mb-2">
                     <!-- 出題待ちまたはクイズ終了後 -->
+                    <p class="font-bold">問題</p>
                     <textarea v-model="state.newQuiz.question" class="px-4 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full" placeholder="問題"></textarea>
+                    <p class="font-bold">答え</p>
                     <textarea v-model="state.newQuiz.answer" class="px-4 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full" placeholder="答え"></textarea>
                     <button class="rounded border-0 border-b-2 bg-indigo-200 hover:bg-indigo-700 hover:text-white px-3 py-1">出題する</button>
                 </form>
@@ -160,29 +173,44 @@ onUnmounted(() => {
                     <!-- 出題中 -->
                     <div class="px-4 py-2 border-0 w-full">
                         <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
-                        <div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
                             {{state.currentQuiz.question}}
+                        </div>
+                    </div>
+                    <div v-if="state.currentQuiz?.hint" class="px-4 py-2 border-0 w-full">
+                        <div class="font-bold">ヒント</div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
+                            {{state.currentQuiz.hint}}
                         </div>
                     </div>
                     <div class="px-4 py-2 border-0 w-full">
                         <div class="font-bold">答え(参加者には非表示)</div>
-                        <div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
                             {{state.currentQuizHidden?.answer}}
                         </div>
                     </div>
+                    <p class="font-bold">ヒント</p>
+                    <textarea v-model="state.hint" class="px-4 py-2 h-30 border-0 border-b-2 border-indigo-700 w-full" placeholder="ヒント"></textarea>
+                    <button @click.prevent="addHint" class="rounded border-0 border-b-2 bg-indigo-200 hover:bg-indigo-700 hover:text-white px-3 py-1 mr-2">ヒントを出す</button>
                     <button @click.prevent="showAnswer" class="rounded border-0 border-b-2 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1">答えを出す</button>
                 </form>
                 <form v-if="state.currentQuiz?.status === '1'" class="bg-white rounded shadow mb-2 p-2">
                     <!-- 答えを出した後 -->
                     <div class="px-4 py-2 border-0 w-full">
                         <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
-                        <div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
                             {{state.currentQuiz.question}}
+                        </div>
+                    </div>
+                    <div v-if="state.currentQuiz?.hint" class="px-4 py-2 border-0 w-full">
+                        <div class="font-bold">ヒント</div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
+                            {{state.currentQuiz.hint}}
                         </div>
                     </div>
                     <div class="px-4 py-2 border-0 w-full">
                         <div class="font-bold">答え</div>
-                        <div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
                             {{state.currentQuiz.answer}}
                         </div>
                     </div>

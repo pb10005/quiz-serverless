@@ -113,11 +113,21 @@ onUnmounted(() => {
             <div v-if="state.currentQuiz" class="bg-white rounded shadow mb-2">
                 <div class="px-4 py-2 border-0 w-full">
                     <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
-                    {{state.currentQuiz?.question}}
+                    <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
+                        {{state.currentQuiz?.question}}
+                    </div>
+                </div>
+                <div v-if="state.currentQuiz?.hint" class="px-4 py-2 border-0 w-full">
+                    <div class="font-bold">ヒント</div>
+                    <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
+                        {{state.currentQuiz?.hint}}
+                    </div>
                 </div>
                 <div v-if="state.currentQuiz?.answer" class="px-4 py-2 border-0 w-full">
                     <div class="font-bold">答え</div>
-                    {{state.currentQuiz?.answer}}
+                    <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
+                        {{state.currentQuiz?.answer}}
+                    </div>
                 </div>
             </div>
             <form @submit.prevent="sendChat" class="mb-2">

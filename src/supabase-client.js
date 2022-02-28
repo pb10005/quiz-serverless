@@ -222,6 +222,17 @@ export default {
                 .match({ id: quiz_id })
         }
     },
+    async addHint({
+        quiz_id,
+        hint
+    }) {
+        await supabase
+            .from('quizzes')
+            .update({
+                hint
+            })
+            .match({ id: quiz_id })
+    },
     async closeQuiz({
         quiz_id
     }) {
