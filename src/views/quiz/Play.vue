@@ -110,20 +110,20 @@ onUnmounted(() => {
         </div>
         <div class="md:col-start-4 md:col-span-9 p-2">
             <div class="text-lg font-bold">参加者用画面</div>
-            <div v-if="state.currentQuiz" class="bg-white rounded shadow mb-2">
-                <div class="px-4 py-2 border-0 w-full">
+            <div v-if="state.currentQuiz" class="bg-white rounded shadow p-2 mb-2 space-y-1">
+                <div class="border-0 w-full">
                     <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
                     <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
                         {{state.currentQuiz?.question}}
                     </div>
                 </div>
-                <div v-if="state.currentQuiz?.hint" class="px-4 py-2 border-0 w-full">
+                <div v-if="state.currentQuiz?.hint" class="border-0 w-full">
                     <div class="font-bold">ヒント</div>
                     <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
                         {{state.currentQuiz?.hint}}
                     </div>
                 </div>
-                <div v-if="state.currentQuiz?.answer" class="px-4 py-2 border-0 w-full">
+                <div v-if="state.currentQuiz?.answer" class="border-0 w-full">
                     <div class="font-bold">答え</div>
                     <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
                         {{state.currentQuiz?.answer}}
