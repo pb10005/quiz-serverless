@@ -2442,10 +2442,10 @@
   resolved "https://registry.yarnpkg.com/@types/source-list-map/-/source-list-map-0.1.2.tgz#0078836063ffaf17412349bba364087e0ac02ec9"
   integrity sha512-K5K+yml8LTo9bWJI/rECfIPrGgxdpeNbj+d53lwN4QjW1MCwlkhUms+gtdzigTeUyBr09+u8BwOIY3MXvHdcsA==
 
-"@types/tailwindcss@^3.0.9":
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/@types/tailwindcss/-/tailwindcss-3.0.9.tgz#82dffdc096818c1989e1b75da8ea6b4f4cdf9cc4"
-  integrity sha512-uZjNKNjlA6cr6py/GWsDjevJb/Bl0fmaMNUdIpNMW3TJGJzxN9O6uFWx97LiSK7ithWNrrDSytq1FdvHpgSvWg==
+"@types/tailwindcss@^3.0.10":
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/@types/tailwindcss/-/tailwindcss-3.0.10.tgz#cd54bad9c00b4823e9e33c67af585347f235aa11"
+  integrity sha512-1UnZIHO0NOPyPlPFV0HuMjki2SHkvG9uBA1ZehWj/OQMSROk503nuNyyfmJSIT289yewxTbKoPG+KLxYRvfIIg==
 
 "@types/tapable@^1", "@types/tapable@^1.0.5":
   version "1.0.8"
