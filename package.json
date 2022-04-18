@@ -9,7 +9,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^1.30.6",
+    "@supabase/supabase-js": "^1.34.1",
     "vue": "^3.2.31",
     "vue-router": "^4.0.12"
   },
