@@ -68,6 +68,15 @@ onUnmounted(() => {
       </form>
     </div>
     <div class="md:col-start-4 md:col-span-9 p-2 rounded shadow bg-white mt-2">
+      <div class="text-lg font-bold">【実証実験】AIと遊ぼう</div>
+      <div class="divide-y">
+        <div class="flex justify-between p-2">
+          <span class="order-first">サンプル問題</span>
+          <span class="order-last">
+            <router-link class="order-last rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play-with-ai/`">遊ぶ(ログイン不要)</router-link>
+          </span>
+        </div>
+      </div>
       <div class="text-lg font-bold">参加者募集中の部屋</div>
       <div class="divide-y">
         <div v-for="item in state.rooms" :key="item.id" class="flex justify-between p-2">
