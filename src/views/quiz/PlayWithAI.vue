@@ -80,7 +80,7 @@ onUnmounted(() => {
                           v-if="item.sender === 'ai'"
                           class="rounded space-x-1 p-1 bg-indigo-100 shadow mr-2">
                           <span class="text-sm text-gray-500">AI</span>
-                          <span>{{item.content}}</span>
+                          <span>{{item.content}}点です</span>
                       </div>
                       <div
                           v-else
