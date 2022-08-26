@@ -65,7 +65,7 @@ onUnmounted(() => {
                 <div class="border-0 w-full">
                     <div class="font-bold">問題</div>
                     <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
-                       自らの死を悟った透明人間が、薄れゆく意識の中で涙を流しているのは何故？
+                      ほんの僅かな額のお金を手に入れたはずの男が、その101倍のお金を受け取ったのは何故だろう？
                     </div>
                     <div class="px-4 py-2">
                         正解との類似度を100点満点(1点刻み)で評価します。
