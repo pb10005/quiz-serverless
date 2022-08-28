@@ -30,7 +30,18 @@ const sendChat = async () => {
     fetch(endPoint, {method, headers, body}).then((res)=> {
       return res.json()
     }).then(res => {
-      state.roomChats.push({ sender: 'ai', content: res })
+       const score = parseInt(res)
+      let comment = `${score}点です。`
+      if(score >= 85) {
+        comment += '正解です！'
+      } else if(score >= 70) {
+        comment += 'あと一歩！要素をまとめてみましょう。'
+      } else if(score >= 50) {
+        comment += '正解に近づいています。関連する質問をしてみましょう。'
+      } else {
+        comment += '質問を変えてみましょう。'
+      }
+      state.roomChats.push({ sender: 'ai', content: comment })
     }).catch(console.error);
     state.chat = ""
 }
@@ -80,7 +91,7 @@ onUnmounted(() => {
                           v-if="item.sender === 'ai'"
                           class="rounded space-x-1 p-1 bg-indigo-100 shadow mr-2">
                           <span class="text-sm text-gray-500">AI</span>
-                          <span>{{item.content}}点です</span>
+                          <span>{{item.content}}</span>
                       </div>
                       <div
                           v-else
