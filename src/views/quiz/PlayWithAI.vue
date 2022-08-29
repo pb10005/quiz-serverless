@@ -14,6 +14,12 @@ const state = reactive({
     roomChats: []
 })
 
+const int2label = {
+  0: 'いいえ',
+  1: 'はい',
+  2: 'どちらともいえません',
+}
+
 const route = useRoute()
 const router = useRouter()
 const endPoint = "https://quiz-1-y6y6z7lz4a-uc.a.run.app"
@@ -30,16 +36,19 @@ const sendChat = async () => {
     fetch(endPoint, {method, headers, body}).then((res)=> {
       return res.json()
     }).then(res => {
-       const score = parseInt(res)
+      const score = parseInt(res.score)
+      const cls = parseInt(res.answer)
+      const clsLabel = int2label[cls]
+
       let comment = `${score}点です。`
       if(score >= 85) {
         comment += '正解です！'
       } else if(score >= 70) {
-        comment += 'あと一歩！要素をまとめてみましょう。'
+        comment += `回答：${clsLabel} あと一歩！要素をまとめてみましょう。`
       } else if(score >= 50) {
-        comment += '正解に近づいています。関連する質問をしてみましょう。'
+        comment += `回答：${clsLabel} 正解に近づいています。関連する質問をしてみましょう。`
       } else {
-        comment += '質問を変えてみましょう。'
+        comment += `質問を変えてみましょう。`
       }
       state.roomChats.push({ sender: 'ai', content: comment })
     }).catch(console.error);
