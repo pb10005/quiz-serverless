@@ -90,11 +90,11 @@ onUnmounted(() => {
 <template>
     <div class="">
         <div class="p-2">
-            <div class="text-lg font-bold">【実証実験】AIと遊ぼう</div>
-            <div class="bg-white rounded shadow p-2 mb-2 space-y-1">
+            <div class="text-lg font-bold py-4">【実証実験】AIと遊ぼう</div>
+            <div class="bg-white rounded shadow px-2 py-2 mb-2 space-y-1">
                 <div class="border-0 w-full">
-                    <div class="font-bold">問題</div>
-                    <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
+                    <div class="font-bold mb-2">問題</div>
+                    <div class="break-words whitespace-pre-wrap px-4 py-4 bg-gray-100 rounded">
                       ほんの僅かな額のお金を手に入れたはずの男が、その101倍のお金を受け取ったのは何故だろう？
                     </div>
                     <div class="px-4 py-2">
