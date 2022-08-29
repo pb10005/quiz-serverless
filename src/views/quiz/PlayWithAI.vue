@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { store } from '../../store'
 import client from '../../supabase-client'
@@ -14,6 +14,8 @@ const state = reactive({
     roomChats: []
 })
 
+const isLoading = ref(false)
+
 const int2label = {
   0: 'いいえ',
   1: 'はい',
@@ -25,6 +27,7 @@ const router = useRouter()
 const endPoint = "https://quiz-1-y6y6z7lz4a-uc.a.run.app"
 
 const sendChat = async () => {
+    isLoading.value = true
     state.roomChats.push({ sender: 'you', content: state.chat})
     const obj = {question: state.chat};
     const method = "POST";
@@ -51,7 +54,11 @@ const sendChat = async () => {
         comment += `質問文を見直してみましょう。`
       }
       state.roomChats.push({ sender: 'ai', content: comment })
-    }).catch(console.error);
+      isLoading.value = false
+    }).catch(err => {
+      console.error(err)
+      isLoading.value = false
+    });
     state.chat = ""
 }
 
@@ -108,6 +115,12 @@ onUnmounted(() => {
                           <span class="text-sm text-gray-500">You</span>
                           <span>{{item.content}}</span>
                       </div>
+                  </div>
+                  <div
+                      class="rounded space-x-1 p-1 bg-indigo-100 shadow mr-2"
+                      v-show="isLoading">
+                      <span className="animate-ping absolute h-2 w-2 bg-blue-600 rounded-full"></span>
+                      <span class="text-sm text-gray-500">AI</span>
                   </div>
                 </div>
             </form>
