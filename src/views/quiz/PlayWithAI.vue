@@ -45,10 +45,10 @@ const sendChat = async () => {
         comment += '正解です！'
       } else if(score >= 70) {
         comment += `回答：${clsLabel} あと一歩！要素をまとめてみましょう。`
-      } else if(score >= 50) {
-        comment += `回答：${clsLabel} 正解に近づいています。関連する質問をしてみましょう。`
+      } else if(score >= 30) {
+        comment += `回答：${clsLabel} 視点を変えた質問をしてみましょう。`
       } else {
-        comment += `質問を変えてみましょう。`
+        comment += `質問文を見直してみましょう。`
       }
       state.roomChats.push({ sender: 'ai', content: comment })
     }).catch(console.error);
