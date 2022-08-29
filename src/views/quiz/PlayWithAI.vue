@@ -46,7 +46,7 @@ const sendChat = async () => {
       } else if(score >= 70) {
         comment += `回答：${clsLabel} あと一歩！要素をまとめてみましょう。`
       } else if(score >= 30) {
-        comment += `回答：${clsLabel} 視点を変えた質問をしてみましょう。`
+        comment += `回答：${clsLabel} 関連する質問や視点を変えた質問をしてみましょう。`
       } else {
         comment += `質問文を見直してみましょう。`
       }
