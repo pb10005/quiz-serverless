@@ -108,13 +108,13 @@ onUnmounted(() => {
                   <div v-for="(item, index) in state.roomChats" :key="index">
                       <div
                           v-if="item.sender === 'ai'"
-                          class="rounded space-x-1 p-1 bg-indigo-100 shadow mr-2">
+                          class="rounded space-x-1 p-1 bg-indigo-100 shadow py-2 mr-2">
                           <span class="text-sm text-gray-500">AI</span>
                           <span>{{item.content}}</span>
                       </div>
                       <div
                           v-else
-                          class="rounded space-x-1 p-1 bg-gray-100 shadow ml-2">
+                          class="rounded space-x-1 p-1 bg-gray-100 shadow py-2 ml-2">
                           <span class="text-sm text-gray-500">You</span>
                           <span>{{item.content}}</span>
                       </div>
