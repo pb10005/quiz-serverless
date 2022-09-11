@@ -68,12 +68,18 @@ onUnmounted(() => {
       </form>
     </div>
     <div class="md:col-start-4 md:col-span-9 p-2 rounded shadow bg-white mt-2">
-      <div class="text-lg font-bold">【実証実験】AIと遊ぼう</div>
+      <div class="text-lg font-bold">AIと遊ぼう</div>
       <div class="divide-y">
         <div class="flex justify-between p-2">
-          <span class="order-first">サンプル問題</span>
+          <span class="order-first">101倍のお金</span>
           <span class="order-last">
-            <router-link class="order-last rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play-with-ai/`">遊ぶ(ログイン不要)</router-link>
+            <router-link class="order-last rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play-with-ai/?id=1`">遊ぶ(ログイン不要)</router-link>
+          </span>
+        </div>
+        <div class="flex justify-between p-2">
+          <span class="order-first">望月家のしきたり</span>
+          <span class="order-last">
+            <router-link class="order-last rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play-with-ai/?id=2`">遊ぶ(ログイン不要)</router-link>
           </span>
         </div>
       </div>
