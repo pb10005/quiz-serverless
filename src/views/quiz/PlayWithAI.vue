@@ -46,18 +46,17 @@ const sendChat = async () => {
       const cls = parseInt(res.answer)
       const clsLabel = int2label[cls]
 
-      let comment = `${score}点です。`
       if(score >= 85) {
         if(cls === 1)
-          comment += '正解です！'
+          comment = '正解です！'
         else
-          comment += `回答：${clsLabel}`
+          comment += `${clsLabel}`
       } else if(score >= 70) {
-        comment += `回答：${clsLabel} あと一歩！要素をまとめてみましょう。`
+        comment += `${clsLabel}`
       } else if(score >= 30) {
-        comment += `回答：${clsLabel} 関連する質問や視点を変えた質問をしてみましょう。`
+        comment += `${clsLabel}`
       } else {
-        comment += `質問文を見直してみましょう。`
+        comment += `重要ではありません`
       }
       state.roomChats.push({ sender: 'ai', content: comment })
       isLoading.value = false
