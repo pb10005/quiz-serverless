@@ -29,7 +29,10 @@ const endPoint = "https://quiz-1-y6y6z7lz4a-uc.a.run.app"
 const sendChat = async () => {
     isLoading.value = true
     state.roomChats.push({ sender: 'you', content: state.chat})
-    const obj = {question: state.chat};
+    const obj = {
+      id: 1,
+      question: state.chat
+    };
     const method = "POST";
     const body = JSON.stringify(obj);
     const headers = {
