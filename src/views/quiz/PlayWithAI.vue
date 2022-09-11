@@ -35,7 +35,7 @@ const sendChat = async () => {
     isLoading.value = true
     state.roomChats.push({ sender: 'you', content: state.chat})
     const obj = {
-      id: route.query.id || 1,
+      id: parseInt(route.query.id) || 1,
       question: state.chat
     };
     const method = "POST";
