@@ -50,13 +50,13 @@ const sendChat = async () => {
         if(cls === 1)
           comment = '正解です！'
         else
-          comment += `${clsLabel}`
+          comment = `${clsLabel}`
       } else if(score >= 70) {
-        comment += `${clsLabel}`
+        comment = `${clsLabel}`
       } else if(score >= 30) {
-        comment += `${clsLabel}`
+        comment = `${clsLabel}`
       } else {
-        comment += `重要ではありません`
+        comment = `重要ではありません`
       }
       state.roomChats.push({ sender: 'ai', content: comment })
       isLoading.value = false
