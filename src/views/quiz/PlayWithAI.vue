@@ -26,11 +26,16 @@ const route = useRoute()
 const router = useRouter()
 const endPoint = "https://quiz-1-y6y6z7lz4a-uc.a.run.app"
 
+const quizzes = {
+  1: 'ほんの僅かな額のお金を手に入れたはずの男が、その101倍のお金を受け取ったのは何故だろう？',
+  2: 'とある老舗和菓子店に定期的に来店する望月氏という男がいる。望月氏は決まって「安倍川餅」と「わらび餅」を指差して注文するのだが、それは何故だろう？'
+}
+
 const sendChat = async () => {
     isLoading.value = true
     state.roomChats.push({ sender: 'you', content: state.chat})
     const obj = {
-      id: 1,
+      id: route.query.id || 1,
       question: state.chat
     };
     const method = "POST";
@@ -93,12 +98,12 @@ onUnmounted(() => {
 <template>
     <div class="">
         <div class="p-2">
-            <div class="text-lg font-bold py-4">【実証実験】AIと遊ぼう</div>
+            <div class="text-lg font-bold py-4">AIと遊ぼう</div>
             <div class="bg-white rounded shadow px-2 py-2 mb-2 space-y-1">
                 <div class="border-0 w-full">
                     <div class="font-bold mb-2">問題</div>
                     <div class="break-words whitespace-pre-wrap px-4 py-4 bg-gray-100 rounded">
-                      ほんの僅かな額のお金を手に入れたはずの男が、その101倍のお金を受け取ったのは何故だろう？
+                      {{ quizzes[route.query.id || 1] }}
                     </div>
                 </div>
             </div>
