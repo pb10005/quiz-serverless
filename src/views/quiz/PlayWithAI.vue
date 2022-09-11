@@ -51,9 +51,9 @@ const sendChat = async () => {
         if(cls === 1)
           comment = '正解です！'
         else
-          comment = `${clsLabel}`
+          comment = `${clsLabel} 重要です`
       } else if(score >= 70) {
-        comment = `${clsLabel}`
+        comment = `${clsLabel} 重要です`
       } else if(score >= 30) {
         comment = `${clsLabel}`
       } else {
