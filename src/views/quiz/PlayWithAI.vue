@@ -46,6 +46,7 @@ const sendChat = async () => {
       const cls = parseInt(res.answer)
       const clsLabel = int2label[cls]
 
+      let comment = ''
       if(score >= 85) {
         if(cls === 1)
           comment = '正解です！'
