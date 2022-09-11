@@ -100,9 +100,6 @@ onUnmounted(() => {
                     <div class="break-words whitespace-pre-wrap px-4 py-4 bg-gray-100 rounded">
                       ほんの僅かな額のお金を手に入れたはずの男が、その101倍のお金を受け取ったのは何故だろう？
                     </div>
-                    <div class="px-4 py-2">
-                        正解との類似度を100点満点(1点刻み)で評価します。
-                    </div>
                 </div>
             </div>
             <form @submit.prevent="sendChat" class="mb-2">
