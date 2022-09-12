@@ -96,42 +96,49 @@ onUnmounted(() => {
 })
 </script>
 <template>
-    <div class="">
-        <div class="p-2">
-            <div class="text-lg font-bold py-4">AIと遊ぼう</div>
-            <div class="bg-white rounded shadow px-2 py-2 mb-2 space-y-1">
-                <div class="border-0 w-full">
-                    <div class="font-bold mb-2">問題</div>
-                    <div class="break-words whitespace-pre-wrap px-4 py-4 bg-gray-100 rounded">
-                      {{ quizzes[route.query.id || 1] }}
+  <div class="grid grid-cols-12">
+    <div class="p-2 col-span-12 md:col-start-3 md:col-span-8">
+      <div class="text-lg font-bold py-4">AIと遊ぼう</div>
+      <div class="bg-white rounded shadow px-2 py-2 mb-2 space-y-1">
+          <div class="border-0 w-full">
+              <div class="font-bold mb-2">問題</div>
+              <div class="break-words whitespace-pre-wrap px-4 py-4 bg-gray-100 rounded">
+                {{ quizzes[route.query.id || 1] }}
+              </div>
+          </div>
+      </div>
+      <form @submit.prevent="sendChat" class="mb-2">
+        <div class="relative">
+          <div v-show="state.roomChats.length > 0" class="py-2 space-y-1 bg-white px-4 rounded mb-2 shadow-inner max-h-screen overflow-y-scroll sticky bottom-2 left-0 right-0">
+            <div v-for="(item, index) in state.roomChats" :key="index">
+                <div
+                    v-if="item.sender === 'ai'"
+                    class="flex item-end">
+                    <div class="rounded space-x-1 bg-indigo-100 shadow px-2 py-2">
+                      <span class="text-sm text-gray-500">AI</span>
+                      <span>{{item.content}}</span>
+                    </div>
+                </div>
+                <div
+                    v-else
+                    class="flex item-end justify-end">
+                    <div class="rounded space-x-1 bg-gray-100 shadow px-2 py-2">
+                      <span class="text-sm text-gray-500">You</span>
+                      <span>{{item.content}}</span>
                     </div>
                 </div>
             </div>
-            <form @submit.prevent="sendChat" class="mb-2">
-                <input v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full" placeholder="チャット(Enterで送信)" required/>
-                <div class="py-2 space-y-1">
-                  <div v-for="(item, index) in state.roomChats" :key="index">
-                      <div
-                          v-if="item.sender === 'ai'"
-                          class="rounded space-x-1 p-1 bg-indigo-100 shadow py-2 mr-2">
-                          <span class="text-sm text-gray-500">AI</span>
-                          <span>{{item.content}}</span>
-                      </div>
-                      <div
-                          v-else
-                          class="rounded space-x-1 p-1 bg-gray-100 shadow py-2 ml-2">
-                          <span class="text-sm text-gray-500">You</span>
-                          <span>{{item.content}}</span>
-                      </div>
-                  </div>
-                  <div
-                      class="rounded space-x-1 p-1 bg-indigo-100 shadow mr-2"
-                      v-show="isLoading">
-                      <span className="animate-ping absolute h-2 w-2 bg-blue-600 rounded-full"></span>
-                      <span class="text-sm text-gray-500">AI</span>
-                  </div>
-                </div>
-            </form>
+            <div
+                class="rounded space-x-1 p-1 mr-2"
+                v-show="isLoading">
+                <span className="animate-ping absolute h-2 w-2 bg-blue-600 rounded-full"></span>
+            </div>
+          </div>
+          <div class="">
+            <input v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full" placeholder="チャット(Enterで送信)" required/>
+          </div>
         </div>
+      </form>
     </div>
+  </div>
 </template>
