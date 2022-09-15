@@ -157,8 +157,8 @@ onUnmounted(() => {
                         </div>
                     </div>
                 </div>
+                <room-chat v-show="state.roomChats.length > 0" :masterId="state.room?.master_id" :roomChats="state.roomChats"></room-chat>
                 <input v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full" placeholder="チャット(Enterで送信)" required/>
-                <room-chat :masterId="state.room?.master_id" :roomChats="state.roomChats"></room-chat>
             </form>
             <div v-show="state.selectedTab === 'quiz'">
                 <form v-if="!state.currentQuiz || state.currentQuiz.status === '2'" @submit.prevent="submitQuiz" class="bg-white rounded shadow p-2 mb-2 space-y-1">

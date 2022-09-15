@@ -131,8 +131,8 @@ onUnmounted(() => {
                 </div>
             </div>
             <form @submit.prevent="sendChat" class="mb-2">
+                <room-chat v-show="state.roomChats.length > 0" :masterId="state.room?.master_id" :roomChats="state.roomChats"></room-chat>
                 <input v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full" placeholder="チャット(Enterで送信)" required/>
-                <room-chat :masterId="state.room?.master_id" :roomChats="state.roomChats"></room-chat>
             </form>
         </div>
     </div>
