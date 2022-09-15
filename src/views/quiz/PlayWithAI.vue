@@ -114,7 +114,7 @@ onUnmounted(() => {
                 <div
                     v-if="item.sender === 'ai'"
                     class="flex item-end">
-                    <div class="rounded space-x-1 bg-indigo-100 shadow px-2 py-2">
+                    <div class="rounded-lg rounded-bl-none space-x-1 bg-indigo-100 shadow px-2 py-2">
                       <span class="text-sm text-gray-500">AI</span>
                       <span>{{item.content}}</span>
                     </div>
@@ -122,7 +122,7 @@ onUnmounted(() => {
                 <div
                     v-else
                     class="flex item-end justify-end">
-                    <div class="rounded space-x-1 bg-gray-100 shadow px-2 py-2">
+                    <div class="rounded-lg rounded-br-none space-x-1 bg-gray-100 shadow px-2 py-2">
                       <span class="text-sm text-gray-500">You</span>
                       <span>{{item.content}}</span>
                     </div>
