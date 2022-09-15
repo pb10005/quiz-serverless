@@ -361,7 +361,7 @@ export default {
             .from('room_chats')
             .select('id, content, sender_id, players(player_name), created_at')
             .match({ room_id })
-            .order('created_at', { ascending: false })
+            .order('created_at', { ascending: true })
         if(error) return null
         return data
     },
