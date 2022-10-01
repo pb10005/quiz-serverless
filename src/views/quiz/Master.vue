@@ -7,7 +7,7 @@ import client from '../../supabase-client'
 import { QuizStatus, PlayerList, RoomInfo, RoomChat } from '../../components'
 
 const state = reactive({
-    selectedTab: 'chat',
+    selectedTab: 'overview',
     newQuiz: {
         question: "",
         answer: ""
@@ -110,6 +110,12 @@ onUnmounted(() => {
     <div class="grid md:grid-cols-12">
         <div class="md:col-start-1 md:col-span-3">
             <button
+                :class="{ 'bg-gray-300': state.selectedTab === 'overview'}"
+                @click="state.selectedTab = 'overview'"
+                class="border-0 px-3 py-1 w-full">
+                概要
+            </button>
+            <button
                 :class="{ 'bg-gray-300': state.selectedTab === 'chat'}"
                 @click="state.selectedTab = 'chat'"
                 class="border-0 px-3 py-1 w-full">
@@ -121,18 +127,6 @@ onUnmounted(() => {
                 class="border-0 px-3 py-1 w-full">
                 出題
             </button>
-            <div class="mx-1 shadow rounded bg-white p-1">
-                <room-info :room="state.room"></room-info>
-                <quiz-status :quiz="state.currentQuiz"></quiz-status>
-                <player-list :players="state.players"></player-list>
-                <div v-if="state.room?.status === '0'">
-                    <button @click="closeParticipation" class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1 w-full">参加締め切り</button>
-                    <div class="text-sm font-bold">参加用URL</div>
-                    <input class="text-xs px-2 py-1 border-0 w-full" :value="`${host}/quiz/play/${route.params.id}`" /><br>
-                    <button class="text-xs rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" @click="copyUrl">コピー</button>
-                </div>
-                <button v-else @click="reopenParticipation" class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1 w-full">参加締め切りを解除</button>
-            </div>
         </div>
         <div class="md:col-start-4 md:col-span-9 p-2">
             <div class="text-lg font-bold">出題者専用画面</div>
@@ -160,6 +154,20 @@ onUnmounted(() => {
                 <room-chat v-show="state.roomChats.length > 0" :masterId="state.room?.master_id" :roomChats="state.roomChats"></room-chat>
                 <input v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full" placeholder="チャット(Enterで送信)" required/>
             </form>
+            <div v-show="state.selectedTab === 'overview'">
+                <div class="mx-1 shadow rounded bg-white p-1">
+                    <room-info :room="state.room"></room-info>
+                    <quiz-status :quiz="state.currentQuiz"></quiz-status>
+                    <player-list :players="state.players"></player-list>
+                    <div v-if="state.room?.status === '0'">
+                        <button @click="closeParticipation" class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1 w-full">参加締め切り</button>
+                        <div class="text-sm font-bold">参加用URL</div>
+                        <input class="text-xs px-2 py-1 border-0 w-full" :value="`${host}/quiz/play/${route.params.id}`" /><br>
+                        <button class="text-xs rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" @click="copyUrl">コピー</button>
+                    </div>
+                    <button v-else @click="reopenParticipation" class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1 w-full">参加締め切りを解除</button>
+                </div>
+            </div>
             <div v-show="state.selectedTab === 'quiz'">
                 <form v-if="!state.currentQuiz || state.currentQuiz.status === '2'" @submit.prevent="submitQuiz" class="bg-white rounded shadow p-2 mb-2 space-y-1">
                     <!-- 出題待ちまたはクイズ終了後 -->
