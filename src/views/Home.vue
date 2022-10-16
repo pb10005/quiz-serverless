@@ -67,19 +67,26 @@ onUnmounted(() => {
         </div>
       </form>
     </div>
-    <div class="md:col-start-4 md:col-span-9 p-2 rounded shadow bg-white mt-2">
-      <div class="text-lg font-bold">AIと遊ぼう</div>
-      <div class="divide-y">
-        <div class="flex justify-between p-2">
-          <span class="order-first">101倍のお金</span>
-          <span class="order-last">
-            <router-link class="order-last rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play-with-ai/?id=1`">遊ぶ(ログイン不要)</router-link>
+    <div class="md:col-start-4 md:col-span-9 p-2 mt-2">
+      <div class="grid md:grid-cols-12">
+        <div class="bg-white shadow p-2 md:col-span-4">
+          <div class="font-bold text-lg mb-1">101倍のお金</div>
+          <div class="text-gray-700 mb-1">管理者</div>
+          <div class="p-2">
+            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">AI</span>
+          </div>
+          <span class="">
+            <router-link class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play-with-ai/?id=1`">遊ぶ(ログイン不要)</router-link>
           </span>
         </div>
-        <div class="flex justify-between p-2">
-          <span class="order-first">望月家のしきたり</span>
-          <span class="order-last">
-            <router-link class="order-last rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play-with-ai/?id=2`">遊ぶ(ログイン不要)</router-link>
+        <div class="bg-white shadow p-2 md:col-span-4">
+          <div class="font-bold text-lg mb-1">望月家のしきたり</div>
+          <div class="text-gray-700 mb-1">管理者</div>
+          <div class="p-2">
+            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">AI</span>
+          </div>
+          <span class="">
+            <router-link class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play-with-ai/?id=2`">遊ぶ(ログイン不要)</router-link>
           </span>
         </div>
       </div>
