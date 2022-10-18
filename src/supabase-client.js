@@ -109,7 +109,7 @@ export default {
         }
         const { data, error } = await supabase
             .from('room_players')
-            .select('room_id, rooms(title, players!rooms_master_id_fkey(player_name)), players(player_name)')
+            .select('room_id, rooms(id, title, players!rooms_master_id_fkey(player_name)), players(player_name)')
             .match({ player_id: store.user?.id })
         return {
             data,

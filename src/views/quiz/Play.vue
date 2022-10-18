@@ -102,14 +102,13 @@ onUnmounted(() => {
     </div>
     <div v-if="state.room?.master_id === store.user?.id || state.players?.filter(x => x.player_id === store.user?.id).length > 0" class="md:grid md:grid-cols-12">
         <div class="md:col-start-1 md:col-span-3 p-2">
+            <room-info :room="state.room"></room-info>
+            <quiz-status :quiz="state.currentQuiz"></quiz-status>
             <div class="bg-white p-1 shadow rounded">
-                <room-info :room="state.room"></room-info>
-                <quiz-status :quiz="state.currentQuiz"></quiz-status>
                 <player-list :players="state.players"></player-list>
             </div>
         </div>
         <div class="md:col-start-4 md:col-span-9 p-2">
-            <div class="text-lg font-bold">参加者用画面</div>
             <div v-if="state.currentQuiz" class="bg-white rounded shadow p-2 mb-2 space-y-1">
                 <div class="border-0 w-full">
                     <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>

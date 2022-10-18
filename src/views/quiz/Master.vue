@@ -109,7 +109,7 @@ onUnmounted(() => {
 <template>
     <div class="grid md:grid-cols-12">
         <div class="md:col-start-1 md:col-span-3">
-            <div class="bg-white rounded shadow p-2 mb-2">
+            <div class="p-2 mb-2">
                 <room-info :room="state.room"></room-info>
                 <quiz-status :quiz="state.currentQuiz"></quiz-status>
             </div>

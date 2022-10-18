@@ -111,13 +111,13 @@ onUnmounted(() => {
       </div>
       <div class="text-lg font-bold my-4">あなたが参加中の部屋</div>
       <div class="grid md:grid-cols-12">
-        <div v-for="item in state.participatingRooms" :key="item.id" class="md:col-span-4 p-2">
+        <div v-for="item in state.participatingRooms" :key="item.rooms.id" class="md:col-span-4 p-2">
           <room-card
             class=""
-            :title="item.title"
+            :title="item.rooms.title"
             :owner="item.players.player_name"
             :tags="['ウミガメのスープ']"
-            :roomId="item.id"
+            :roomId="item.rooms.id"
             :isMaster="store.user?.id === item.master_id">
           </room-card>
         </div>
