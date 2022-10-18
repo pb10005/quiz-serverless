@@ -115,7 +115,7 @@ onUnmounted(() => {
           <room-card
             class=""
             :title="item.rooms.title"
-            :owner="item.players.player_name"
+            :owner="item.rooms.player_name"
             :tags="['ウミガメのスープ']"
             :roomId="item.rooms.id"
             :isMaster="store.user?.id === item.master_id">
