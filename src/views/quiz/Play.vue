@@ -88,8 +88,8 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  for(const s of state.subscriptions) {
-    supabase.removeSubscription(s)
+  for(const s of supabase.getChannels()) {
+    supabase.removeChannel(s)
   }
 })
 </script>

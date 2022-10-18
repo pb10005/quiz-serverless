@@ -9,7 +9,7 @@ const playerName = ref("")
 const route = useRoute()
 const router = useRouter()
 
-store.user = supabase.auth.user()
+store.user = supabase.auth.user
 supabase.auth.onAuthStateChange(async (_, session) => {
   if(!session) {
     store.user = {}

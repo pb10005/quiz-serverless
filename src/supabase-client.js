@@ -13,7 +13,7 @@ export default {
         }
     },
     async signIn({ email, password }) {
-        const { error } = await supabase.auth.signIn({
+        const { error } = await supabase.auth.signInWithPassword({
             email,
             password
         })
@@ -145,10 +145,26 @@ export default {
     },
     async subscribeRooms(handleEvents) {
         const subscription = await supabase
-            .from('rooms')
-            .on('INSERT', handleEvents)
-            .on('UPDATE', handleEvents)
-            .on('DELETE', handleEvents)
+            .channel('rooms')
+            .on('postgres_changes',
+                {
+                  event: 'INSERT',
+                  schema: 'public',
+                  table: 'rooms',
+                },
+                handleEvents)
+            .on('postgres_changes',
+            {
+              event: 'UPDATE',
+              schema: 'public',
+              table: 'rooms',
+            }, handleEvents)
+            .on('postgres_changes',
+            {
+              event: 'DELETE',
+              schema: 'public',
+              table: 'rooms',
+            }, handleEvents)
             .subscribe()
         return subscription
     },
@@ -258,10 +274,28 @@ export default {
     },
     async subscribeQuizzes({ room_id }, handleEvents) {
         const subscription = await supabase
-            .from(`quizzes:room_id=eq.${room_id}`)
-            .on('INSERT', handleEvents)
-            .on('UPDATE', handleEvents)
-            .on('DELETE', handleEvents)
+            .channel('quizzes')
+            .on('postgres_changes',
+            {
+              event: 'INSERT',
+              schema: 'public',
+              table: 'quizzes',
+              filter: `room_id=eq.${room_id}`
+            }, handleEvents)
+            .on('postgres_changes',
+            {
+              event: 'UPDATE',
+              schema: 'public',
+              table: 'quizzes',
+              filter: `room_id=eq.${room_id}`
+            }, handleEvents)
+            .on('postgres_changes',
+            {
+              event: 'DELETE',
+              schema: 'public',
+              table: 'quizzes',
+              filter: `room_id=eq.${room_id}`
+            }, handleEvents)
             .subscribe()
         return subscription
     },
@@ -335,10 +369,28 @@ export default {
     },
     async subscribeRoomPlayers({ room_id }, handleEvents){
         const subscription = await supabase
-            .from(`room_players:room_id=eq.${room_id}`)
-            .on('INSERT', handleEvents)
-            .on('UPDATE', handleEvents)
-            .on('DELETE', handleEvents)
+            .channel('room_players')
+            .on('postgres_changes',
+                {
+                event: 'INSERT',
+                schema: 'public',
+                table: 'room_players',
+                filter: `room_id=eq.${room_id}`
+                }, handleEvents)
+            .on('postgres_changes',
+            {
+              event: 'UPDATE',
+              schema: 'public',
+              table: 'room_players',
+              filter: `room_id=eq.${room_id}`
+            }, handleEvents)
+            .on('postgres_changes',
+            {
+              event: 'DELETE',
+              schema: 'public',
+              table: 'room_players',
+              filter: `room_id=eq.${room_id}`
+            }, handleEvents)
             .subscribe()
         return subscription
     },
@@ -367,10 +419,28 @@ export default {
     },
     async subscribeRoomChats({ room_id }, handleEvents) {
         const subscription = await supabase
-            .from(`room_chats:room_id=eq.${room_id}`)
-            .on('INSERT', handleEvents)
-            .on('UPDATE', handleEvents)
-            .on('DELETE', handleEvents)
+            .channel('room_chats')
+            .on('postgres_changes',
+            {
+              event: 'INSERT',
+              schema: 'public',
+              table: 'room_chats',
+              filter: `room_id=eq.${room_id}`
+            }, handleEvents)
+            .on('postgres_changes',
+            {
+              event: 'UPDATE',
+              schema: 'public',
+              table: 'room_chats',
+              filter: `room_id=eq.${room_id}`
+            }, handleEvents)
+            .on('postgres_changes',
+            {
+              event: 'DELETE',
+              schema: 'public',
+              table: 'room_chats',
+              filter: `room_id=eq.${room_id}`
+            }, handleEvents)
             .subscribe()
         return subscription
     },

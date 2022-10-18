@@ -75,8 +75,6 @@ const sendChat = async () => {
 
 
 onMounted(async () => {
-  
-
   if(!store.user) {
     return
   }
