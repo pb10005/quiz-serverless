@@ -57,7 +57,7 @@ onUnmounted(() => {
 <template>
   <div class="grid md:grid-cols-12">
     <div class="md:col-start-1 md:col-span-3">
-      <div class="p-2 mb-2">
+      <div>
         <button
             :class="{ 'bg-gray-300': state.selectedTab === 'quiz'}"
             @click="state.selectedTab = 'quiz'"
