@@ -5,6 +5,7 @@ import { supabase } from '../../supabase'
 import { store } from '../../store'
 import client from '../../supabase-client'
 import { QuizStatus, PlayerList, RoomInfo, RoomChat } from '../../components'
+import { UserIcon } from '@heroicons/vue/24/solid'
 
 const state = reactive({
     selectedTab: 'overview',
