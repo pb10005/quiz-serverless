@@ -1,6 +1,6 @@
 <script setup>
-import { ref, reactive, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, reactive, onMounted, watch, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { store } from '../store'
 import client from '../supabase-client'
 import { supabase } from '../supabase'
@@ -20,6 +20,8 @@ const state = reactive({
 })
 
 const router = useRouter()
+const route = useRoute()
+const playerName = ref("")
 
 const createRoom = async () => {
   const { data, error } = await client.createRoom(state.newRoom)
@@ -41,11 +43,20 @@ onMounted(async () => {
   if(!store.user) return
   if(!store.user.id) return
   const username = await client.getUsername()
+  playerName.value = username
   if(!username) {
       router.push("/profile")
       return
   }
+  state.selectedTab = route.query.tab || 'quiz'
 })
+
+watch(
+      () => route.query.tab,
+      async newTab => {
+        state.selectedTab = route.query.tab || 'quiz'
+      }
+    )
 
 onUnmounted(() => {
   for(const s of supabase.getChannels()) {
@@ -60,26 +71,26 @@ onUnmounted(() => {
       <div>
         <button
             :class="{ 'bg-gray-300': state.selectedTab === 'quiz'}"
-            @click="state.selectedTab = 'quiz'"
+            @click="router.push('/?tab=quiz')"
             class="border-0 px-3 py-1 w-full">
             部屋に参加する
         </button>
         <button
             :class="{ 'bg-gray-300': state.selectedTab === 'post'}"
-            @click="state.selectedTab = 'post'"
+            @click="router.push('/?tab=post')"
             class="border-0 px-3 py-1 w-full">
             部屋を作成する
         </button>
         <button
             :class="{ 'bg-gray-300': state.selectedTab === 'profile'}"
-            @click="state.selectedTab = 'profile'"
+            @click="router.push('/?tab=profile')"
             class="border-0 px-3 py-1 w-full">
             プロフィール
         </button>
       </div>
     </div>
-    <div class="md:col-start-4 md:col-span-9">
-      <div class="p-2 h-auto">
+    <div class="md:col-start-4 md:col-span-9 px-2">
+      <div class="h-auto">
         <form @submit.prevent="createRoom" class="bg-white shadow p-2" v-show="state.selectedTab === 'post'">
           <div>
             <div class="font-bold text-lg my-2">出題する</div>
@@ -135,6 +146,8 @@ onUnmounted(() => {
         </div>
       </div>
       <div v-show="state.selectedTab === 'profile'">
+        <div class="text-xl my-2">{{playerName}}</div>
+        <router-link to="/profile" class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1">編集</router-link>
         <div class="text-lg font-bold my-4">あなたが参加中の部屋</div>
         <div class="grid md:grid-cols-12">
           <div v-for="item in state.participatingRooms" :key="item.rooms.id" class="md:col-span-4 p-2">

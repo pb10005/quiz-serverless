@@ -48,7 +48,7 @@ watch(route, async () => {
       <span class="order-last space-x-1 mr-1">
         <span v-if="store.user?.email" class="mr-1">
           ログイン中: 
-          <router-link to="/profile">{{ playerName }}</router-link>
+          <router-link to="/?tab=profile">{{ playerName }}</router-link>
         </span>
         <span v-else class="mr-1">未ログイン</span>
         <a v-if="store.user?.email" @click="signOut" class="cursor-pointer border-0 bg-gray-200 hover:bg-gray-700 hover:text-white ease-in-out duration-300 rounded ml-2 px-3 py-2">ログアウト</a>
