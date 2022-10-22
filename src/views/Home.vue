@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { store } from '../store'
 import client from '../supabase-client'
 import { supabase } from '../supabase'
-import { RoomCard } from '../components'
+import { ProfileTab, RoomCard } from '../components'
 
 const state = reactive({
   selectedTab: 'quiz',
@@ -107,7 +107,7 @@ onUnmounted(() => {
         <div class="text-lg font-bold my-4">AIと遊ぼう</div>
         <div class="grid md:grid-cols-12">
           <div class="md:col-span-4 p-2">
-            <div class="bg-white shadow p-2">
+            <div class="bg-white rounded-lg shadow-xl p-2">
               <div class="font-bold text-lg mb-1">101倍のお金</div>
               <div class="text-gray-700 mb-1">管理者</div>
               <div class="p-2">
@@ -119,7 +119,7 @@ onUnmounted(() => {
             </div>
           </div>
           <div class="p-2 md:col-span-4">
-            <div class="bg-white shadow p-2">
+            <div class="bg-white rounded-lg shadow-xl p-2">
               <div class="font-bold text-lg mb-1">望月家のしきたり</div>
               <div class="text-gray-700 mb-1">管理者</div>
               <div class="p-2">
@@ -146,34 +146,8 @@ onUnmounted(() => {
         </div>
       </div>
       <div v-show="state.selectedTab === 'profile'">
-        <div class="text-xl my-2">{{playerName}}</div>
-        <router-link to="/profile" class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1">編集</router-link>
-        <div class="text-lg font-bold my-4">あなたが参加中の部屋</div>
-        <div class="grid md:grid-cols-12">
-          <div v-for="item in state.participatingRooms" :key="item.rooms.id" class="md:col-span-4 p-2">
-            <room-card
-              class=""
-              :title="item.rooms.title"
-              :owner="item.rooms.players.player_name"
-              :tags="['ウミガメのスープ']"
-              :roomId="item.rooms.id"
-              :isMaster="store.user?.id === item.master_id">
-            </room-card>
-          </div>
-        </div>
-        <div class="text-lg font-bold my-4">あなたが作成した部屋</div>
-        <div class="grid md:grid-cols-12">
-          <div v-for="item in state.ownRooms" :key="item.id" class="md:col-span-4 p-2">
-            <room-card
-              class=""
-              :title="item.title"
-              :owner="item.players.player_name"
-              :tags="['ウミガメのスープ']"
-              :roomId="item.id"
-              :isMaster="store.user?.id === item.master_id">
-            </room-card>
-          </div>
-        </div>
+        <profile-tab v-show="playerName" :userId="store.user?.id" :playerName="playerName" :participatingRooms="state.participatingRooms" :ownRooms="state.ownRooms"></profile-tab>
+        <div v-show="!playerName">ログインしましょう</div>
       </div>
     </div>
   </div>

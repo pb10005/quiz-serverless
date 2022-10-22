@@ -23,7 +23,7 @@ defineProps({
 })
 </script>
 <template>
-    <div class="bg-white shadow p-2">
+    <div class="bg-white rounded-lg shadow-xl p-2">
         <div class="font-bold text-lg mb-1">{{title}}</div>
         <div class="text-gray-700 mb-1">{{owner}}</div>
         <div class="p-2">
