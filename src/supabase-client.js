@@ -148,6 +148,14 @@ export default {
             })
             .match({id: room_id})
     },
+    async changeRoomVisibility({ room_id, visibility }) {
+        await supabase
+            .from('rooms')
+            .update({
+                is_public: visibility
+            })
+            .match({id: room_id})
+    },
     async reopenParticipation({ room_id }) {
         await supabase
             .from('rooms')
