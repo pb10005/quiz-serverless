@@ -108,7 +108,7 @@ onUnmounted(() => {
         <div class="grid md:grid-cols-12">
           <div class="md:col-span-4 p-2">
             <div class="bg-white rounded-lg shadow-xl p-2">
-              <div class="font-bold text-lg my-4">101倍のお金</div>
+              <div class="font-bold text-xl my-4">101倍のお金</div>
               <div class="text-gray-700 mb-1">管理者</div>
               <div class="p-2">
                 <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">AI</span>
@@ -120,7 +120,7 @@ onUnmounted(() => {
           </div>
           <div class="p-2 md:col-span-4">
             <div class="bg-white rounded-lg shadow-xl p-2">
-              <div class="font-bold text-lg my-4">望月家のしきたり</div>
+              <div class="font-bold text-xl my-4">望月家のしきたり</div>
               <div class="text-gray-700 mb-1">管理者</div>
               <div class="p-2">
                 <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">AI</span>

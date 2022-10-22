@@ -26,7 +26,14 @@ defineProps(
 <template>
 <div>
     <div class="bg-cyan-50 p-4 rounded-xl shadow-xl mt-2">
-        <div class="text-xl my-2">{{playerName}}</div>
+        <div class="flex mb-2">
+            <div class="overflow-hidden relative w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600 mr-2">
+                <svg class="absolute -left-1 w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+            </div>
+            <span class="text-xl my-2">
+                <div>{{playerName}}</div>
+            </span>
+        </div>
         <link-button to="/profile" label="編集"></link-button>
     </div>
     <div class="text-lg font-bold my-4">あなたが参加中の部屋</div>
