@@ -45,8 +45,8 @@ watch(route, async () => {
     <header class="flex justify-between py-2 bg-white">
       <span class="order-first">
         <button 
-        class="ml-2 my-2 font-extrabold text-xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-800"
-        @click="router.push('/')">クイズしよう</button>
+        class="ml-4 font-extrabold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-800"
+        @click="router.push('/')">QS</button>
       </span>
       <span class="order-last space-x-1 mr-1">
         <span v-if="store.user?.email" class="mr-1">
