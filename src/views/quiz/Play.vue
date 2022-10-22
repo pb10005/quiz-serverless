@@ -12,7 +12,8 @@ const state = reactive({
     currentQuiz: null,
     subscriptions: [],
     players: [],
-    roomChats: []
+    roomChats: [],
+    quizHistories: []
 })
 
 const route = useRoute()
@@ -62,6 +63,8 @@ const fetchData = async () => {
     state.roomChats = await client.selectRoomChats({ room_id: route.params.id })
     const players = await client.selectRoomPlayers({room_id: route.params.id})
     state.players = players.data
+    const history = await client.getQuizHistories({room_id: route.params.id})
+    state.quizHistories = history
 }
 
 onMounted(async () => {
@@ -104,35 +107,70 @@ onUnmounted(() => {
         <div class="md:col-start-1 md:col-span-3 p-2">
             <room-info :room="state.room"></room-info>
             <quiz-status :quiz="state.currentQuiz"></quiz-status>
-            <div class="bg-white p-1 shadow rounded">
-                <player-list :players="state.players"></player-list>
-            </div>
+            <button
+                :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'chat'}"
+                @click="state.selectedTab = 'chat'"
+                class="md:py-2 hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full tracking-widest">
+                問題
+            </button>
+            <button
+                :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'overview'}"
+                @click="state.selectedTab = 'overview'"
+                class="md:py-2 hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full tracking-widest">
+                参加者
+            </button>
+            <button
+                :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'history'}"
+                @click="state.selectedTab = 'history'"
+                class="md:py-2 hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full tracking-widest">
+                出題履歴
+            </button>
         </div>
         <div class="md:col-start-4 md:col-span-9 p-2">
-            <div v-if="state.currentQuiz" class="bg-white rounded-lg shadow-xl p-4 mb-2 space-y-1">
-                <div class="border-0 w-full">
-                    <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
-                    <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
-                        {{state.currentQuiz?.question}}
+            <div v-show="state.selectedTab === 'chat'">
+                <div v-if="state.currentQuiz" class="bg-white rounded-lg shadow-xl p-4 mb-2 space-y-1">
+                    <div class="border-0 w-full">
+                        <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
+                            {{state.currentQuiz?.question}}
+                        </div>
+                    </div>
+                    <div v-if="state.currentQuiz?.hint" class="border-0 w-full">
+                        <div class="font-bold">ヒント</div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
+                            {{state.currentQuiz?.hint}}
+                        </div>
+                    </div>
+                    <div v-if="state.currentQuiz?.answer" class="border-0 w-full">
+                        <div class="font-bold">答え</div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
+                            {{state.currentQuiz?.answer}}
+                        </div>
                     </div>
                 </div>
-                <div v-if="state.currentQuiz?.hint" class="border-0 w-full">
-                    <div class="font-bold">ヒント</div>
-                    <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
-                        {{state.currentQuiz?.hint}}
-                    </div>
+                <form @submit.prevent="sendChat" class="mb-2">
+                    <room-chat v-show="state.roomChats.length > 0" :masterId="state.room?.master_id" :roomChats="state.roomChats"></room-chat>
+                    <input v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full" placeholder="チャット(Enterで送信)" required/>
+                </form>
+            </div>
+            <div v-show="state.selectedTab === 'overview'">
+                <div class="bg-white p-4 shadow-xl rounded-lg">
+                    <player-list :players="state.players"></player-list>
                 </div>
-                <div v-if="state.currentQuiz?.answer" class="border-0 w-full">
-                    <div class="font-bold">答え</div>
-                    <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
-                        {{state.currentQuiz?.answer}}
+            </div>
+            <div v-show="state.selectedTab === 'history'" class="divide-y-4">
+                <div v-for="item in state.quizHistories" :key="item.quizNumber">
+                    <div class="bg-white rounded-lg shadow-xl p-4">
+                        <div>第{{item.quizNumber}}問</div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded mb-2">
+                            {{item.question}}
+                        </div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
+                            {{item.answer}}
+                        </div>
                     </div>
                 </div>
             </div>
-            <form @submit.prevent="sendChat" class="mb-2">
-                <room-chat v-show="state.roomChats.length > 0" :masterId="state.room?.master_id" :roomChats="state.roomChats"></room-chat>
-                <input v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full" placeholder="チャット(Enterで送信)" required/>
-            </form>
         </div>
     </div>
 </template>
