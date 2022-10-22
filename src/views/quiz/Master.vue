@@ -135,7 +135,7 @@ onUnmounted(() => {
         </div>
         <div class="md:col-start-4 md:col-span-9 p-2">
             <form @submit.prevent="sendChat" class="mb-2" v-show="state.selectedTab === 'chat'">
-                <div v-if="state.currentQuiz" class="bg-white rounded shadow p-2 mb-2 space-y-1">
+                <div v-if="state.currentQuiz" class="bg-white rounded-lg shadow-xl p-4 mb-2 space-y-1">
                     <div class="border-0 w-full">
                         <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
                         <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
@@ -171,7 +171,7 @@ onUnmounted(() => {
                 <action-button v-else @click="reopenParticipation" label="参加締め切りを解除"></action-button>
             </div>
             <div v-show="state.selectedTab === 'quiz'">
-                <form v-if="!state.currentQuiz || state.currentQuiz.status === '2'" @submit.prevent="submitQuiz" class="bg-white rounded shadow p-2 mb-2 space-y-1">
+                <form v-if="!state.currentQuiz || state.currentQuiz.status === '2'" @submit.prevent="submitQuiz" class="bg-white rounded-lg shadow-xl p-4 mb-2 space-y-1">
                     <!-- 出題待ちまたはクイズ終了後 -->
                     <p class="font-bold">問題</p>
                     <textarea v-model="state.newQuiz.question" class="px-4 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full" placeholder="問題"></textarea>
@@ -179,7 +179,7 @@ onUnmounted(() => {
                     <textarea v-model="state.newQuiz.answer" class="px-4 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full" placeholder="答え"></textarea>
                     <action-button label="出題する"></action-button>
                 </form>
-                <form v-if="state.currentQuiz?.status === '0'" class="bg-white rounded shadow mb-2 p-2 space-y-1">
+                <form v-if="state.currentQuiz?.status === '0'" class="bg-white rounded-lg shadow-xl mb-2 p-4 space-y-1">
                     <!-- 出題中 -->
                     <div class="border-0 w-full">
                         <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
@@ -204,7 +204,7 @@ onUnmounted(() => {
                     <action-button @click.prevent="addHint" label="ヒントを出す"></action-button>
                     <action-button @click.prevent="showAnswer" label="答えを出す"></action-button>
                 </form>
-                <form v-if="state.currentQuiz?.status === '1'" class="bg-white rounded shadow mb-2 p-2 space-y-1">
+                <form v-if="state.currentQuiz?.status === '1'" class="bg-white rounded-lg shadow-xl mb-2 p-4 space-y-1">
                     <!-- 答えを出した後 -->
                     <div class="border-0 w-full">
                         <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>

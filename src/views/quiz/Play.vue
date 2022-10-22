@@ -109,7 +109,7 @@ onUnmounted(() => {
             </div>
         </div>
         <div class="md:col-start-4 md:col-span-9 p-2">
-            <div v-if="state.currentQuiz" class="bg-white rounded shadow p-2 mb-2 space-y-1">
+            <div v-if="state.currentQuiz" class="bg-white rounded-lg shadow-xl p-4 mb-2 space-y-1">
                 <div class="border-0 w-full">
                     <div class="font-bold">第{{state.currentQuiz?.quiz_number}}問</div>
                     <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
