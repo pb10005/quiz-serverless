@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../../supabase'
 import { store } from '../../store'
 import client from '../../supabase-client'
-import { QuizStatus, PlayerList, RoomInfo, RoomChat } from '../../components'
+import { ActionButton, QuizStatus, PlayerList, RoomInfo, RoomChat } from '../../components'
 import { UserIcon } from '@heroicons/vue/24/solid'
 
 const state = reactive({
@@ -115,21 +115,21 @@ onUnmounted(() => {
                 <quiz-status :quiz="state.currentQuiz"></quiz-status>
             </div>
             <button
-                :class="{ 'bg-gray-300': state.selectedTab === 'overview'}"
+                :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'overview'}"
                 @click="state.selectedTab = 'overview'"
-                class="border-0 px-3 py-1 w-full">
+                class="hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full">
                 概要
             </button>
             <button
-                :class="{ 'bg-gray-300': state.selectedTab === 'chat'}"
+                :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'chat'}"
                 @click="state.selectedTab = 'chat'"
-                class="border-0 px-3 py-1 w-full">
+                class="hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full">
                 チャット
             </button>
             <button
-                :class="{ 'bg-gray-300': state.selectedTab === 'quiz'}"
+                :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'quiz'}"
                 @click="state.selectedTab = 'quiz'"
-                class="border-0 px-3 py-1 w-full">
+                class="hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full">
                 出題
             </button>
         </div>
@@ -163,12 +163,12 @@ onUnmounted(() => {
                     <player-list :players="state.players"></player-list>
                 </div>
                 <div v-if="state.room?.status === '0'">
-                    <button @click="closeParticipation" class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1 w-full">参加締め切り</button>
+                    <action-button @click="closeParticipation" label="参加締め切り"></action-button>
                     <div class="text-sm font-bold my-2">参加用URL</div>
                     <input class="text-xs px-2 py-1 border-0 w-full" :value="`${host}/quiz/play/${route.params.id}`" /><br>
-                    <button class="text-xs rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" @click="copyUrl">コピー</button>
+                    <action-button class="size-xs mt-1" @click="copyUrl" label="コピー"></action-button>
                 </div>
-                <button v-else @click="reopenParticipation" class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1 w-full">参加締め切りを解除</button>
+                <action-button v-else @click="reopenParticipation" label="参加締め切りを解除"></action-button>
             </div>
             <div v-show="state.selectedTab === 'quiz'">
                 <form v-if="!state.currentQuiz || state.currentQuiz.status === '2'" @submit.prevent="submitQuiz" class="bg-white rounded shadow p-2 mb-2 space-y-1">
@@ -177,7 +177,7 @@ onUnmounted(() => {
                     <textarea v-model="state.newQuiz.question" class="px-4 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full" placeholder="問題"></textarea>
                     <p class="font-bold">答え</p>
                     <textarea v-model="state.newQuiz.answer" class="px-4 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full" placeholder="答え"></textarea>
-                    <button class="rounded border-0 border-b-2 bg-indigo-200 hover:bg-indigo-700 hover:text-white px-3 py-1">出題する</button>
+                    <action-button label="出題する"></action-button>
                 </form>
                 <form v-if="state.currentQuiz?.status === '0'" class="bg-white rounded shadow mb-2 p-2 space-y-1">
                     <!-- 出題中 -->
@@ -201,8 +201,8 @@ onUnmounted(() => {
                     </div>
                     <p class="font-bold">ヒント</p>
                     <textarea v-model="state.hint" class="px-4 py-2 h-30 border-0 border-b-2 border-indigo-700 w-full" placeholder="ヒント"></textarea>
-                    <button @click.prevent="addHint" class="rounded border-0 border-b-2 bg-indigo-200 hover:bg-indigo-700 hover:text-white px-3 py-1 mr-2">ヒントを出す</button>
-                    <button @click.prevent="showAnswer" class="rounded border-0 border-b-2 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1">答えを出す</button>
+                    <action-button @click.prevent="addHint" label="ヒントを出す"></action-button>
+                    <action-button @click.prevent="showAnswer" label="答えを出す"></action-button>
                 </form>
                 <form v-if="state.currentQuiz?.status === '1'" class="bg-white rounded shadow mb-2 p-2 space-y-1">
                     <!-- 答えを出した後 -->
@@ -224,7 +224,7 @@ onUnmounted(() => {
                             {{state.currentQuiz.answer}}
                         </div>
                     </div>
-                    <button @click.prevent="closeQuiz" class="rounded border-0 border-b-2 bg-indigo-200 hover:bg-indigo-700 hover:text-white px-3 py-1">クイズを終了する</button>
+                    <action-button @click.prevent="closeQuiz" label="クイズを終了する"></action-button>
                 </form>
             </div>
         </div>

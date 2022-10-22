@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '../../supabase'
 import { store } from '../../store'
 import client from '../../supabase-client'
-import { QuizStatus, PlayerList, RoomChat, RoomInfo } from '../../components'
+import { ActionButton, QuizStatus, PlayerList, RoomChat, RoomInfo } from '../../components'
 
 const state = reactive({
     selectedTab: 'chat',
@@ -96,8 +96,8 @@ onUnmounted(() => {
 <template>
     <div v-if="state.room?.master_id !== store.user?.id && state.players?.filter(x => x.player_id === store.user?.id).length === 0" class="md:grid md:grid-cols-3 md:grid-rows-3 w-full min-h-screen">
         <div class="md:col-start-2 md:col-span-1 md:row-start-2 md:row-span-1">
-            <p class="text-center font-bold text-xl">{{ state.room?.title }}</p>
-            <button @click="joinRoom" class="rounded border-solid border-2 px-3 py-2 w-full">この部屋に参加する</button>
+            <p class="text-center font-bold text-xl my-4">{{ state.room?.title }}</p>
+            <action-button @click="joinRoom"  class="w-full" label="この部屋に参加する"></action-button>
         </div>
     </div>
     <div v-if="state.room?.master_id === store.user?.id || state.players?.filter(x => x.player_id === store.user?.id).length > 0" class="md:grid md:grid-cols-12">

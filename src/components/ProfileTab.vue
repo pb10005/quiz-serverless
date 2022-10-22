@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps } from 'vue'
-import { RoomCard } from '../components'
+import { LinkButton, RoomCard } from '.'
 
 defineProps(
     {
@@ -26,7 +26,7 @@ defineProps(
 <template>
 <div>
     <div class="text-xl my-2">{{playerName}}</div>
-    <router-link to="/profile" class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1">編集</router-link>
+    <link-button to="/profile" label="編集"></link-button>
     <div class="text-lg font-bold my-4">あなたが参加中の部屋</div>
     <div class="grid md:grid-cols-12">
         <div v-for="item in participatingRooms" :key="item.rooms.id" class="md:col-span-4 p-2">

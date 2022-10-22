@@ -1,4 +1,5 @@
 <script setup>
+import { LinkButton } from '.';
 defineProps({
     title: {
         type: String,
@@ -30,8 +31,8 @@ defineProps({
             <span v-for="(item, index) in tags" :key="index" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{item}}</span>
         </div>
         <span class="">
-            <router-link class="order-last rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/master/${roomId}`" v-if="isMaster">出題者画面</router-link>
-            <router-link class="order-last rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play/${roomId}`" v-else>参加</router-link>
+            <link-button :to="`/quiz/master/${roomId}`" v-if="isMaster" label="出題者画面"></link-button>
+            <link-button :to="`/quiz/play/${roomId}`" v-else label="参加"></link-button>
         </span>
     </div>
 </template>

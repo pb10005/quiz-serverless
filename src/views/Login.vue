@@ -3,6 +3,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { store } from '../store'
 import client from '../supabase-client'
+import { ActionButton } from '../components'
 
 const router = useRouter()
 
@@ -37,8 +38,8 @@ const signIn = async () => {
             <input type="password" v-model="password" class="px-4 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full" placeholder="パスワード"/>
         </div>
         <div>
-            <button @click="signUp" class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1">登録</button>
-            <button @click="signIn" class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 ml-2 px-3 py-1">ログイン</button>
+            <action-button @click="signUp" label="登録"></action-button>
+            <action-button @click="signIn" label="ログイン"></action-button>
         </div>
     </div>
     <div v-else>

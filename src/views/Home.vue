@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { store } from '../store'
 import client from '../supabase-client'
 import { supabase } from '../supabase'
-import { ProfileTab, RoomCard } from '../components'
+import { ActionButton, LinkButton, ProfileTab, RoomCard } from '../components'
 
 const state = reactive({
   selectedTab: 'quiz',
@@ -70,36 +70,36 @@ onUnmounted(() => {
     <div class="md:col-start-1 md:col-span-3">
       <div>
         <button
-            :class="{ 'bg-gray-300': state.selectedTab === 'quiz'}"
+            :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'quiz'}"
             @click="router.push('/?tab=quiz')"
-            class="border-0 px-3 py-1 w-full">
+            class="hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full">
             部屋に参加する
         </button>
         <button
-            :class="{ 'bg-gray-300': state.selectedTab === 'post'}"
+            :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'post'}"
             @click="router.push('/?tab=post')"
-            class="border-0 px-3 py-1 w-full">
+            class="hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full">
             部屋を作成する
         </button>
         <button
-            :class="{ 'bg-gray-300': state.selectedTab === 'profile'}"
+            :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'profile'}"
             @click="router.push('/?tab=profile')"
-            class="border-0 px-3 py-1 w-full">
+            class="hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full"> 
             プロフィール
         </button>
       </div>
     </div>
     <div class="md:col-start-4 md:col-span-9 px-2">
       <div class="h-auto">
-        <form @submit.prevent="createRoom" class="bg-white shadow p-2" v-show="state.selectedTab === 'post'">
+        <form @submit.prevent="createRoom" class="p-2" v-show="state.selectedTab === 'post'">
           <div>
-            <div class="font-bold text-lg my-2">出題する</div>
+            <div class="font-bold text-lg my-2">部屋を作成する</div>
             <input type="text" v-model="state.newRoom.title" class="px-3 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full mb-2" placeholder="部屋名" required/>
             <div class="my-2">
               <input id="public" type="checkbox" v-model="state.newRoom.is_public" checked class="mr-1" />
               <label for="public">ホーム画面の一覧に表示する</label>
             </div>
-            <button type="submit" class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1 w-full">部屋を作成する</button>
+            <action-button type="submit" label="部屋を作成する"></action-button>
           </div>
         </form>
       </div>
@@ -114,7 +114,7 @@ onUnmounted(() => {
                 <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">AI</span>
               </div>
               <span class="">
-                <router-link class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play-with-ai/?id=1`">参加(ログイン不要)</router-link>
+                <link-button :to="`/quiz/play-with-ai/?id=1`" label="参加(ログイン不要)"></link-button>
               </span>
             </div>
           </div>
@@ -126,7 +126,7 @@ onUnmounted(() => {
                 <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">AI</span>
               </div>
               <span class="">
-                <router-link class="rounded border-0 bg-indigo-200 hover:bg-indigo-700 hover:text-white ease-in-out duration-300 px-3 py-1" :to="`/quiz/play-with-ai/?id=2`">参加(ログイン不要)</router-link>
+                <link-button :to="`/quiz/play-with-ai/?id=2`" label="参加(ログイン不要)"></link-button>
               </span>
             </div>
           </div>
