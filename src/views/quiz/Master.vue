@@ -21,6 +21,7 @@ const state = reactive({
     roomChats: [],
     subscriptions: [],
     players: [],
+    quizHistories: []
 })
 
 const host = window.location.protocol + "//" + window.location.host
@@ -89,6 +90,9 @@ const fetchData = async () => {
   state.roomChats = await client.selectRoomChats({ room_id: route.params.id })
   const players = await client.selectRoomPlayers({room_id: route.params.id})
   state.players = players.data
+
+  const history = await client.getQuizHistories({room_id: route.params.id})
+  state.quizHistories = history
 }    
 
 onMounted(async () => {
@@ -131,6 +135,12 @@ onUnmounted(() => {
                 @click="state.selectedTab = 'quiz'"
                 class="md:py-2 hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full tracking-wider">
                 出題
+            </button>
+            <button
+                :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'history'}"
+                @click="state.selectedTab = 'history'"
+                class="md:py-2 hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full tracking-wider">
+                出題履歴
             </button>
         </div>
         <div class="md:col-start-4 md:col-span-9 p-2">
@@ -226,6 +236,19 @@ onUnmounted(() => {
                     </div>
                     <action-button @click.prevent="closeQuiz" label="クイズを終了する"></action-button>
                 </form>
+            </div>
+            <div v-show="state.selectedTab === 'history'" class="divide-y-4">
+                <div v-for="item in state.quizHistories" :key="item.quizNumber">
+                    <div class="bg-white rounded-lg shadow-xl p-4">
+                        <div>第{{item.quizNumber}}問</div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded mb-2">
+                            {{item.question}}
+                        </div>
+                        <div class="break-words whitespace-pre-wrap px-4 py-2 bg-gray-100 rounded">
+                            {{item.answer}}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

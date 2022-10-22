@@ -285,6 +285,26 @@ export default {
         if(data.length === 0) return null
         return data[0]
     },
+    async getQuizHistories({
+        room_id
+    }) {
+        const { data, error } = await supabase
+            .from('quizzes')
+            .select()
+            .match({room_id, status: '2'})
+            .order('quiz_number', { ascending: true })
+        if(error) return null
+        return data.map(d => {
+            return {
+                id: d.id,
+                roomId: d.room_id,
+                quizNumber: d.quiz_number,
+                question: d.question,
+                answer: d.answer,
+                hint: d.hint
+            }
+        })
+    },
     async subscribeQuizzes({ room_id }, handleEvents) {
         const subscription = await supabase
             .channel('quizzes')
