@@ -36,7 +36,7 @@ defineProps(
             :owner="item.rooms.players.player_name"
             :tags="['ウミガメのスープ']"
             :roomId="item.rooms.id"
-            :isMaster="store.user?.id === item.master_id">
+            :isMaster="userId === item.master_id">
         </room-card>
         </div>
     </div>
