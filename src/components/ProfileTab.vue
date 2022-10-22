@@ -25,8 +25,10 @@ defineProps(
 </script>
 <template>
 <div>
-    <div class="text-xl my-2">{{playerName}}</div>
-    <link-button to="/profile" label="編集"></link-button>
+    <div class="bg-cyan-50 p-4 rounded-xl shadow-xl mt-2">
+        <div class="text-xl my-2">{{playerName}}</div>
+        <link-button to="/profile" label="編集"></link-button>
+    </div>
     <div class="text-lg font-bold my-4">あなたが参加中の部屋</div>
     <div class="grid md:grid-cols-12">
         <div v-for="item in participatingRooms" :key="item.rooms.id" class="md:col-span-4 p-2">
