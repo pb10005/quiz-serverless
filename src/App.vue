@@ -42,7 +42,7 @@ watch(route, async () => {
 
 <template>
   <div class="bg-gray-100">
-    <header class="flex justify-between py-2 bg-white">
+    <header class="flex justify-between items-center py-2 bg-white">
       <span class="order-first">
         <button 
         class="ml-4 font-extrabold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-800"
