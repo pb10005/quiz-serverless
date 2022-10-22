@@ -178,13 +178,13 @@ onUnmounted(() => {
                 </div>
                 <div v-if="state.room?.status === '0'">
                     <action-button @click="closeParticipation" label="参加締め切り"></action-button>
+                    <action-button v-if="state.room?.is_public" @click="changeVisibility(false)" label="ホーム画面で非表示にする"></action-button>
+                    <action-button v-else @click="changeVisibility(true)" label="ホーム画面に表示する"></action-button>
                     <div class="text-sm font-bold my-2">参加用URL</div>
                     <input class="text-xs px-2 py-1 border-0 w-full" :value="`${host}/quiz/play/${route.params.id}`" /><br>
                     <action-button class="size-xs mt-1" @click="copyUrl" label="コピー"></action-button>
                 </div>
                 <action-button v-else @click="reopenParticipation" label="参加締め切りを解除"></action-button>
-                <action-button v-if="state.room?.is_public" @click="changeVisibility(false)" label="ホーム画面で非表示にする"></action-button>
-                <action-button v-else @click="changeVisibility(true)" label="ホーム画面に表示する"></action-button>
             </div>
             <div v-show="state.selectedTab === 'quiz'">
                 <form v-if="!state.currentQuiz || state.currentQuiz.status === '2'" @submit.prevent="submitQuiz" class="bg-white rounded-lg shadow-xl p-4 mb-2 space-y-1">
