@@ -13,7 +13,8 @@ const registeredName = ref("")
 const setUsername = async () => {
     const { error } = await client.upsertProfile({
         id: store.user.id,
-        player_name: playerName.value
+        player_name: playerName.value,
+        bio: 'None'
     })
     if(!error) {
         router.push("/")

@@ -16,12 +16,16 @@ const state = reactive({
   rooms: [],
   participatingRooms: [],
   ownRooms: [],
-  subscriptions: [] 
+  subscriptions: [],
+  player: {
+    playerName: '',
+    bio: ''
+  } 
 })
 
 const router = useRouter()
 const route = useRoute()
-const playerName = ref("")
+const playerName = ref('')
 
 const createRoom = async () => {
   const { data, error } = await client.createRoom(state.newRoom)
@@ -42,8 +46,11 @@ onMounted(async () => {
 
   if(!store.user) return
   if(!store.user.id) return
-  const username = await client.getUsername()
-  playerName.value = username
+  const profile = await client.getProfile()
+  const username = profile.playerName
+  playerName.value = profile.playerName
+  state.player = Object.assign({}, profile)
+  
   if(!username) {
       router.push("/profile")
       return
@@ -146,7 +153,7 @@ onUnmounted(() => {
         </div>
       </div>
       <div v-show="state.selectedTab === 'profile'">
-        <profile-tab v-show="playerName" :userId="store.user?.id" :playerName="playerName" :participatingRooms="state.participatingRooms" :ownRooms="state.ownRooms"></profile-tab>
+        <profile-tab v-show="playerName" :userId="store.user?.id" :player="state.player" :participatingRooms="state.participatingRooms" :ownRooms="state.ownRooms"></profile-tab>
         <div v-show="!playerName">ログインしましょう</div>
       </div>
     </div>

@@ -37,15 +37,28 @@ export default {
         }
     },
     // profile
-    async upsertProfile({ id, player_name }) {
+    async upsertProfile({ id, player_name, bio }) {
         const { error } = await supabase
             .from('players')
             .upsert({
                 id,
-                player_name
+                player_name,
+                bio
             })
         return {
             error
+        }
+    },
+    async getProfile() {
+        const { data, error } = await supabase
+            .from('players')
+            .select('player_name, bio')
+            .match({ id: store.user?.id })
+        if(error) return null
+        if(data.length === 0) return null
+        return {
+            playerName: data[0].player_name,
+            bio: data[0].bio,
         }
     },
     async getUsername() {

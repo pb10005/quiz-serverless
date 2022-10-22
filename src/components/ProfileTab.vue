@@ -1,12 +1,14 @@
 <script setup>
-import { defineProps } from 'vue'
 import { LinkButton, RoomCard } from '.'
 
 defineProps(
     {
-        playerName: {
-            type: String,
-            default: ''
+        player: {
+            type: Object,
+            default: {
+                playerName: '',
+                bio: ''
+            }
         },
         userId: {
             type: String,
@@ -31,9 +33,10 @@ defineProps(
                 <svg class="absolute -left-1 w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
             </div>
             <span class="text-xl my-2">
-                <div>{{playerName}}</div>
+                <div>{{player.playerName}}</div>
             </span>
         </div>
+        <div class="p-4">{{player.bio}}</div>
         <link-button to="/profile" label="編集"></link-button>
     </div>
     <div class="text-lg font-bold my-4">あなたが参加中の部屋</div>
