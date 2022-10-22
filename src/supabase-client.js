@@ -408,6 +408,14 @@ export default {
               content
             })
     },
+    async updateChat({ chat_id, content }) {
+        await supabase
+            .from('room_chats')
+            .update({
+                'content': content
+            })
+            .match({'id': chat_id})
+    },
     async selectRoomChats({ room_id }) {
         const { data, error } = await supabase
             .from('room_chats')
