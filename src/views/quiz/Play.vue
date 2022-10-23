@@ -104,9 +104,11 @@ onUnmounted(() => {
         </div>
     </div>
     <div v-if="state.room?.master_id === store.user?.id || state.players?.filter(x => x.player_id === store.user?.id).length > 0" class="md:grid md:grid-cols-12">
-        <div class="md:col-start-1 md:col-span-3 p-2">
-            <room-info :room="state.room"></room-info>
-            <quiz-status :quiz="state.currentQuiz"></quiz-status>
+        <div class="md:col-start-1 md:col-span-3">
+            <div class="p-2">
+                <room-info :room="state.room"></room-info>
+                <quiz-status :quiz="state.currentQuiz"></quiz-status>
+            </div>
             <button
                 :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'chat'}"
                 @click="state.selectedTab = 'chat'"
