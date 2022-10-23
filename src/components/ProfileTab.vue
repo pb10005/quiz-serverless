@@ -41,7 +41,7 @@ defineProps(
     </div>
     <div class="text-lg font-bold my-4">あなたが参加中の部屋</div>
     <div class="grid md:grid-cols-12">
-        <div v-if="participatingRooms.length === 0" class="flex justify-center items-center col-span-12 my-4">
+        <div v-if="participatingRooms?.length === 0" class="flex justify-center items-center col-span-12 my-4">
             <link-button to="/?tab=quiz" label="参加する部屋を探しましょう"></link-button>
         </div>
         <div v-for="item in participatingRooms" :key="item.rooms.id" class="md:col-span-4 p-2">
@@ -57,7 +57,7 @@ defineProps(
     </div>
     <div class="text-lg font-bold my-4">あなたが作成した部屋</div>
     <div class="grid md:grid-cols-12">
-        <div v-if="ownRooms.length === 0" class="flex justify-center items-center col-span-12 my-4">
+        <div v-if="ownRooms?.length === 0" class="flex justify-center items-center col-span-12 my-4">
             <link-button to="/?tab=post" label="部屋を作成しましょう"></link-button>
         </div>
         <div v-for="item in ownRooms" :key="item.id" class="md:col-span-4 p-2">

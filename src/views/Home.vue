@@ -34,6 +34,10 @@ const createRoom = async () => {
 const fetchData = async () => {
   const rooms = await client.selectRooms({status: '0'})
   state.rooms = rooms.data
+  
+  if(!store.user) return
+  if(!store.user.id) return
+
   const ownRooms = await client.selectOwnRooms()
   state.ownRooms = ownRooms.data 
   const participatingRooms = await client.selectParticipatingRooms()
@@ -41,6 +45,7 @@ const fetchData = async () => {
 }
 
 onMounted(async () => {
+  state.selectedTab = route.query.tab || 'quiz'
   await fetchData()
   state.subscriptions = [...state.subscriptions, await client.subscribeRooms(fetchData)]
 
@@ -55,15 +60,14 @@ onMounted(async () => {
       router.push("/profile")
       return
   }
-  state.selectedTab = route.query.tab || 'quiz'
 })
 
 watch(
-      () => route.query.tab,
-      async newTab => {
-        state.selectedTab = route.query.tab || 'quiz'
-      }
-    )
+  () => route.query.tab,
+  async newTab => {
+    state.selectedTab = route.query.tab || 'quiz'
+  }
+)
 
 onUnmounted(() => {
   for(const s of supabase.getChannels()) {
@@ -153,8 +157,10 @@ onUnmounted(() => {
         </div>
       </div>
       <div v-show="state.selectedTab === 'profile'">
-        <profile-tab v-show="playerName" :userId="store.user?.id" :player="state.player" :participatingRooms="state.participatingRooms" :ownRooms="state.ownRooms"></profile-tab>
-        <div v-show="!playerName">ログインしましょう</div>
+        <profile-tab v-if="playerName" :userId="store.user?.id" :player="state.player" :participatingRooms="state.participatingRooms" :ownRooms="state.ownRooms"></profile-tab>
+        <div v-show="!playerName" class="flex justify-center items-center my-4">
+          <link-button to="/login" label="ログインしましょう"></link-button>
+        </div>
       </div>
     </div>
   </div>
