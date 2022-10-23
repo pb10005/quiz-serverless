@@ -48,6 +48,7 @@ defineProps(
         <room-card
             class=""
             :title="item.rooms.title"
+            :ownerId="item.rooms.master_id"
             :owner="item.rooms.players.player_name"
             :tags="['ウミガメのスープ']"
             :roomId="item.rooms.id"
@@ -64,6 +65,7 @@ defineProps(
         <room-card
             class=""
             :title="item.title"
+            :ownerId="item.master_id"
             :owner="item.players.player_name"
             :tags="['ウミガメのスープ']"
             :roomId="item.id"

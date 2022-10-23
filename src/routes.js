@@ -6,6 +6,8 @@ import PlayWithAI from './views/quiz/PlayWithAI.vue'
 import Login from './views/Login.vue'
 import Profile from './views/Profile.vue'
 import ResetPassword from './views/ResetPassword.vue'
+import User from './views/User.vue'
+import DirectMessage from './views/DirectMessage.vue'
 
 /** @type {import('vue-router').RouterOptions['routes']} */
 export const routes = [
@@ -16,5 +18,7 @@ export const routes = [
   { path: '/quiz/play/:id', component: QuizPlay },
   { path: '/quiz/play-with-ai', component: PlayWithAI },
   { path: '/reset-password', component: ResetPassword},
+  { path: '/user/:id', component: User },
+  { path: '/direct-message/:id', component: DirectMessage },
   { path: '/:path(.*)', component: NotFound }
 ]

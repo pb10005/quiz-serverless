@@ -9,6 +9,10 @@ defineProps({
         type: String,
         default: ""
     },
+    ownerId: {
+        type: String,
+        default: ""
+    },
     roomId: {
         type: String,
         default: ""
@@ -31,7 +35,7 @@ defineProps({
                 <svg class="absolute -left-1 w-10 h-10 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
             </div>
             <span class="text-gray-700 text-sm my-2">
-                <div>{{owner}}</div>
+                <router-link :to="`/user/${ownerId}`">{{owner}}</router-link>
             </span>
         </div>
         <div class="p-2">

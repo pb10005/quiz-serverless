@@ -49,6 +49,18 @@ export default {
             error
         }
     },
+    async getProfileById(userId) {
+        const { data, error } = await supabase
+            .from('players')
+            .select('player_name, bio')
+            .match({ id: userId })
+        if(error) return null
+        if(data.length === 0) return null
+        return {
+            playerName: data[0].player_name,
+            bio: data[0].bio,
+        }
+    },
     async getProfile() {
         const { data, error } = await supabase
             .from('players')
@@ -122,7 +134,7 @@ export default {
         }
         const { data, error } = await supabase
             .from('room_players')
-            .select('room_id, rooms(id, title, players!rooms_master_id_fkey(player_name)), players(player_name)')
+            .select('room_id, rooms(id, title, master_id, players!rooms_master_id_fkey(player_name)), players(player_name)')
             .match({ player_id: store.user?.id })
         return {
             data,
@@ -354,7 +366,6 @@ export default {
         return data[0]
     },
     // room players
-    
     async getMaxPlayerNumber({
         room_id
     }) {
@@ -493,5 +504,75 @@ export default {
             .subscribe()
         return subscription
     },
-
+    // direct messages
+    async selectDirectMessages(partner_id) {
+        const { data, error } = await supabase
+            .from('direct_messages')
+            .select('id, from_id, to_id, from_name:players!direct_messages_from_id_fkey(player_name), to_name:players!direct_messages_to_id_fkey(player_name), content, read, created_at')
+            .or(`and(from_id.eq.${partner_id}, to_id.eq.${store.user.id}), and(from_id.eq.${store.user.id}, to_id.eq.${partner_id})`)
+            .order('created_at', { ascending: true })
+        if(error) return null
+        return data
+    },
+    async sendDirectMessageChat({
+        from_id,
+        to_id,
+        content
+    }) {
+        await supabase
+            .from('direct_messages')
+            .insert({
+              from_id,
+              to_id,
+              content
+            })
+    },
+    async subscribeDirectMessages(handleEvents) {
+        const subscription = await supabase
+            .channel('direct_messages')
+            .on('postgres_changes',
+                {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'direct_messages',
+                    filter: `from_id=eq.${store.user.id}`
+                }, handleEvents)
+            .on('postgres_changes',
+                {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'direct_messages',
+                    filter: `to_id=eq.${store.user.id}`
+                }, handleEvents)
+            .on('postgres_changes',
+                {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'direct_messages',
+                    filter: `from_id=eq.${store.user.id}`
+                }, handleEvents)
+            .on('postgres_changes',
+                {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'direct_messages',
+                    filter: `to_id=eq.${store.user.id}`
+                }, handleEvents)
+            .on('postgres_changes',
+                {
+                    event: 'DELETE',
+                    schema: 'public',
+                    table: 'direct_messages',
+                    filter: `from_id=eq.${store.user.id}`
+                }, handleEvents)
+            .on('postgres_changes',
+                {
+                    event: 'DELETE',
+                    schema: 'public',
+                    table: 'direct_messages',
+                    filter: `to_id=eq.${store.user.id}`
+                }, handleEvents)
+            .subscribe()
+        return subscription
+    },
 }

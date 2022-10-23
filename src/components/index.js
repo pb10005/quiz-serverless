@@ -1,4 +1,5 @@
 import ActionButton from './ActionButton.vue'
+import DirectMessageChat from './DirectMessageChat.vue'
 import PlayerList from './PlayerList.vue'
 import QuizStatus from './QuizStatus.vue'
 import RoomChat from './RoomChat.vue'
@@ -9,6 +10,7 @@ import LinkButton from './LinkButton.vue'
 
 export {
     ActionButton,
+    DirectMessageChat,
     LinkButton,
     PlayerList,
     ProfileTab,
