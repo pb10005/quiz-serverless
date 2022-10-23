@@ -3,6 +3,7 @@ import { reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { LinkButton } from '../components'
 import client from '../supabase-client'
+import { store } from '../store'
 
 const state = reactive({
     player: {
@@ -34,6 +35,6 @@ onMounted(async () => {
             </div>
         </div>
         <div class="p-4">{{state.player.bio}}</div>
-        <link-button :to="`/direct-message/${state.player.id}`" label="DMを送る"></link-button>
+        <link-button v-show="store.user?.id" :to="`/direct-message/${state.player.id}`" label="DMを送る"></link-button>
     </div>
 </template>
