@@ -35,6 +35,6 @@ onMounted(async () => {
             </div>
         </div>
         <div class="p-4">{{state.player.bio}}</div>
-        <link-button v-show="store.user?.id" :to="`/direct-message/${state.player.id}`" label="DMを送る"></link-button>
+        <link-button v-show="store.user?.id && store.user?.id !== route.params.id" :to="`/direct-message/${state.player.id}`" label="DMを送る"></link-button>
     </div>
 </template>
