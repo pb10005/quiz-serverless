@@ -16,14 +16,14 @@ defineProps({
             <div v-for="item in roomChats" :key="item.id">
                 <div class="flex item-end" v-if="masterId === item.sender_id">
                     <div
-                        class="rounded-lg rounded-bl-none space-x-1 bg-blue-100 shadow px-2 py-2">
+                        class="rounded-full rounded-bl-none space-x-1 bg-blue-100 shadow px-2 py-2">
                         <span class="text-sm text-gray-500">{{item.players.player_name}}</span>
                         <span>{{item.content}}</span>
                     </div>
                 </div>
                 <div v-else class="flex item-end justify-end">
                     <div
-                        class="rounded-lg rounded-br-none space-x-1 bg-teal-50 shadow px-2 py-2">
+                        class="rounded-full rounded-br-none space-x-1 bg-teal-50 shadow px-2 py-2">
                         <span class="text-sm text-gray-500">{{item.players.player_name}}</span>
                         <span>{{item.content}}</span>
                     </div>

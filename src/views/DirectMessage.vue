@@ -72,9 +72,9 @@ onUnmounted(() => {
                 </button>
             </div>
         </div>
-        <div class="md:col-start-4 md:col-span-9 px-2">
-            <div class="p-2">
-                <div v-show="partnerName" class="text-xl font-bold my-4">
+        <div class="md:col-start-4 md:col-span-9">
+            <div class="divide-y">
+                <div v-show="partnerName" class="text-xl font-bold p-2 bg-white w-full">
                     <span class="mr-2">{{partnerName}}</span>
                     <action-button v-show="state.currentChats?.filter(c => !c.read && c.to_id === store.user?.id).length > 0" @click="markAsRead" label="既読にする"></action-button>
                 </div>
