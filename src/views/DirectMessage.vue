@@ -5,6 +5,7 @@ import { DirectMessageChat } from '../components'
 import { store } from '../store'
 import client from '../supabase-client' 
 import { supabase } from '../supabase'
+import ActionButton from '@/components/ActionButton.vue'
 
 const state = reactive({
     chat: '',
@@ -30,12 +31,6 @@ const fetchData = async () => {
     const data = await client.selectDirectMessages(route.params.id)
     state.currentChats = data
 
-    if(data) {
-        if(data.length > 0) {
-            await client.markAsRead(route.params.id)
-        }
-    }
-
     const summary = await client.selectAllDirectMessages()
     state.summary = summary
 }
@@ -48,6 +43,10 @@ const init = async () => {
     const pName = await client.getProfileById(route.params.id)
     if(pName)
         partnerName.value = pName.playerName
+}
+
+const markAsRead = async () => {
+    await client.markAsRead(route.params.id)
 }
 
 onMounted(init)
@@ -75,7 +74,10 @@ onUnmounted(() => {
         </div>
         <div class="md:col-start-4 md:col-span-9 px-2">
             <div class="p-2">
-                <div class="text-xl font-bold my-4">{{partnerName}}</div>
+                <div v-show="partnerName" class="text-xl font-bold my-4">
+                    <span class="mr-2">{{partnerName}}</span>
+                    <action-button v-show="state.currentChats?.filter(c => !c.read && c.to_id === store.user?.id).length > 0" @click="markAsRead" label="既読にする"></action-button>
+                </div>
                 <form @submit.prevent="sendChat">
                     <direct-message-chat v-show="state.currentChats?.length > 0" :chats="state.currentChats" />
                     <input v-show="route.params.id" v-model="state.chat" type="text" class="px-4 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full" placeholder="チャット(Enterで送信)" required/>
