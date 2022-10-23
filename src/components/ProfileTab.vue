@@ -37,7 +37,8 @@ defineProps(
             </div>
         </div>
         <div class="p-4">{{player.bio}}</div>
-        <link-button to="/profile" label="編集"></link-button>
+        <link-button to="/profile" label="編集" class="mr-2"></link-button>
+        <link-button to="/direct-message" label="ダイレクトメッセージ"></link-button>
     </div>
     <div class="text-lg font-bold my-4">あなたが参加中の部屋</div>
     <div class="grid md:grid-cols-12">

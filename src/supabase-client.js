@@ -514,6 +514,24 @@ export default {
         if(error) return null
         return data
     },
+    async selectAllDirectMessages() {
+        const { data, error } = await supabase
+            .rpc('direct_messages')
+            .order('id', { ascending: true })
+        if(error) return null
+        return data
+    },
+    async markAsRead(partnerId) {
+        const { error } = await supabase
+            .from('direct_messages')
+            .update({
+                'read': true
+            })
+            .match({'from_id': partnerId, 'to_id': store.user.id, 'read': false})
+        if(error) {
+            console.log('Error', error)
+        }
+    },
     async sendDirectMessageChat({
         from_id,
         to_id,

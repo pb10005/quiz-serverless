@@ -19,6 +19,7 @@ export const routes = [
   { path: '/quiz/play-with-ai', component: PlayWithAI },
   { path: '/reset-password', component: ResetPassword},
   { path: '/user/:id', component: User },
+  { path: '/direct-message/', component: DirectMessage },
   { path: '/direct-message/:id', component: DirectMessage },
   { path: '/:path(.*)', component: NotFound }
 ]
