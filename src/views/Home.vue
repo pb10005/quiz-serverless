@@ -80,7 +80,7 @@ watch(
   }
 )
 watch(
-  () => store.user,
+  () => store.user?.id,
   async newUser => {
     const profile = await client.getProfile()
     playerName.value = profile?.playerName | ''
