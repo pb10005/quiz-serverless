@@ -7,7 +7,7 @@ import { supabase } from '../supabase'
 import { ActionButton, LinkButton, ProfileTab, RoomCard } from '../components'
 
 const state = reactive({
-  selectedTab: 'quiz',
+  selectedTab: 'profile',
   newRoom: {
     title: "",
     description: "",
@@ -45,7 +45,7 @@ const fetchData = async () => {
 }
 
 onMounted(async () => {
-  state.selectedTab = route.query.tab || 'quiz'
+  state.selectedTab = route.query.tab || 'profile'
   await fetchData()
   state.subscriptions = [...state.subscriptions, await client.subscribeRooms(fetchData)]
 
@@ -65,7 +65,15 @@ onMounted(async () => {
 watch(
   () => route.query.tab,
   async newTab => {
-    state.selectedTab = route.query.tab || 'quiz'
+    state.selectedTab = route.query.tab || 'profile'
+  }
+)
+watch(
+  () => store.user,
+  async newUser => {
+    const profile = await client.getProfile()
+    playerName.value = profile?.playerName | ''
+    state.player = Object.assign({}, profile)
   }
 )
 
@@ -81,6 +89,12 @@ onUnmounted(() => {
     <div class="md:col-start-1 md:col-span-3">
       <div>
         <button
+            :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'profile'}"
+            @click="router.push('/?tab=profile')"
+            class="md:py-2 hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full tracking-wider"> 
+            プロフィール
+        </button>
+        <button
             :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'quiz'}"
             @click="router.push('/?tab=quiz')"
             class="md:py-2 hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full tracking-widest">
@@ -91,12 +105,6 @@ onUnmounted(() => {
             @click="router.push('/?tab=post')"
             class="md:py-2 hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full tracking-wider">
             部屋を作成する
-        </button>
-        <button
-            :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'profile'}"
-            @click="router.push('/?tab=profile')"
-            class="md:py-2 hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full tracking-wider"> 
-            プロフィール
         </button>
       </div>
     </div>
