@@ -521,6 +521,12 @@ export default {
         if(error) return null
         return data
     },
+    async countUnread() {
+        const { data, error } = await supabase
+            .rpc('direct_message_unread_count')
+        if(error) return 0
+        return data
+    },
     async markAsRead(partnerId) {
         const { error } = await supabase
             .from('direct_messages')

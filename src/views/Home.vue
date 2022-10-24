@@ -20,7 +20,8 @@ const state = reactive({
   player: {
     playerName: '',
     bio: ''
-  } 
+  },
+  unreadCount: 0
 })
 
 const router = useRouter()
@@ -44,10 +45,20 @@ const fetchData = async () => {
   state.participatingRooms = participatingRooms.data 
 }
 
+const notifyDirectMessages = async () => {
+  const count = await client.countUnread()
+  state.unreadCount = count
+}
+
 onMounted(async () => {
   state.selectedTab = route.query.tab || 'profile'
   await fetchData()
-  state.subscriptions = [...state.subscriptions, await client.subscribeRooms(fetchData)]
+  await notifyDirectMessages()
+  state.subscriptions = [
+    ...state.subscriptions,
+    await client.subscribeRooms(fetchData),
+    await client.subscribeDirectMessages(notifyDirectMessages)
+  ]
 
   if(!store.user) return
   if(!store.user.id) return
@@ -166,7 +177,7 @@ onUnmounted(() => {
         </div>
       </div>
       <div v-show="state.selectedTab === 'profile'">
-        <profile-tab v-if="playerName" :userId="store.user?.id" :player="state.player" :participatingRooms="state.participatingRooms" :ownRooms="state.ownRooms"></profile-tab>
+        <profile-tab v-if="playerName" :userId="store.user?.id" :player="state.player" :participatingRooms="state.participatingRooms" :ownRooms="state.ownRooms" :unreadCount="state.unreadCount"></profile-tab>
         <div v-show="!playerName" class="flex justify-center items-center my-4">
           <link-button to="/login" label="ログインしましょう"></link-button>
         </div>
