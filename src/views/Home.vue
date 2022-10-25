@@ -126,15 +126,18 @@ onUnmounted(() => {
             <div class="font-bold text-lg my-2">部屋を作成する</div>
             <input type="text" v-model="state.newRoom.title" class="px-3 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full mb-2" placeholder="部屋名" required/>
             <div class="my-2">
-              <input id="public" type="checkbox" v-model="state.newRoom.is_public" checked class="mr-1" />
-              <label for="public">ホーム画面の一覧に表示する</label>
+              <label for="default-toggle" class="inline-flex relative items-center mb-4 cursor-pointer">
+                <input type="checkbox" v-model="state.newRoom.is_public" checked id="default-toggle" class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">ホーム画面の一覧に表示する</span>
+              </label>
             </div>
             <action-button type="submit" label="部屋を作成する"></action-button>
           </div>
         </form>
       </div>
-      <div v-show="state.selectedTab === 'quiz'">
-        <div class="text-lg font-bold my-4">AIと遊ぼう</div>
+      <div v-show="state.selectedTab === 'quiz'" class="p-2">
+        <div class="text-lg font-bold my-2">AIと遊ぼう</div>
         <div class="grid md:grid-cols-12">
           <div class="md:col-span-4 p-2">
             <div class="bg-white rounded-lg shadow-xl p-2">
