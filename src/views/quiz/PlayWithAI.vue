@@ -3,7 +3,7 @@ import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { store } from '../../store'
 import client from '../../supabase-client'
-import { RoomChat } from '../../components'
+import { Bubble } from '../../components'
 
 const state = reactive({
     selectedTab: 'chat',
@@ -109,22 +109,7 @@ onUnmounted(() => {
         <div class="relative">
           <div v-show="state.roomChats.length > 0" class="py-2 space-y-1 bg-white px-4 rounded mb-2 shadow-inner max-h-screen overflow-y-scroll sticky bottom-2 left-0 right-0">
             <div v-for="(item, index) in state.roomChats" :key="index">
-                <div
-                    v-if="item.sender === 'ai'"
-                    class="flex item-end">
-                    <div class="rounded-full rounded-bl-none space-x-1 bg-indigo-100 shadow px-2 py-2">
-                      <span class="text-sm text-gray-500">AI</span>
-                      <span>{{item.content}}</span>
-                    </div>
-                </div>
-                <div
-                    v-else
-                    class="flex item-end justify-end">
-                    <div class="rounded-full rounded-br-none space-x-1 bg-gray-100 shadow px-2 py-2">
-                      <span class="text-sm text-gray-500">You</span>
-                      <span>{{item.content}}</span>
-                    </div>
-                </div>
+                <bubble :position="item.sender === 'ai' ? 'left' : 'right'" :sender="item.sender === 'ai' ? 'AI' : 'You'" :content="item.content"></bubble>
             </div>
             <div
                 class="rounded space-x-1 p-1 mr-2"
