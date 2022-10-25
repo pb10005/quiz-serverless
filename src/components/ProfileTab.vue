@@ -40,7 +40,7 @@ defineProps(
                 {{player.playerName}}
             </div>
         </div>
-        <div class="p-4">{{player.bio}}</div>
+        <div class="p-4 break-words whitespace-pre-wrap">{{player.bio}}</div>
         <link-button to="/profile" label="編集" class="mr-2"></link-button>
         <link-button to="/direct-message" :label="`ダイレクトメッセージ${unreadCount > 0 ? ('('+ unreadCount + ')') : ''}`"></link-button>
     </div>
