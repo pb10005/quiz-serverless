@@ -636,13 +636,13 @@ export default {
                     table: 'player_notifications',
                     filter: `player_id=eq.${store.user.id}`
                 }, handleEvents)
-                .on('postgres_changes',
-                    {
-                        event: 'UPDATE',
-                        schema: 'public',
-                        table: 'player_notifications',
-                        filter: `player_id=eq.${store.user.id}`
-                    }, handleEvents)
+            .on('postgres_changes',
+                {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'player_notifications',
+                    filter: `player_id=eq.${store.user.id}`
+                }, handleEvents)
             .subscribe()
         return subscription
     },
