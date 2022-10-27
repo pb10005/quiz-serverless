@@ -11,7 +11,7 @@ defineProps({
 
 const transfer_notification = (n) => {
   if(n.notifications.type === '01') {
-    return `あなたが出題した問題にプレイヤーが参加者しました。`
+    return `あなたが作成した部屋にプレイヤーが参加しました。`
   } else {
     return null
   }
