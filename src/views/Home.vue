@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { store } from '../store'
 import client from '../supabase-client'
 import { supabase } from '../supabase'
-import { ActionButton, LinkButton, ProfileTab, RoomCard } from '../components'
+import { ActionButton, LinkButton, NotificationCard, ProfileTab, RoomCard } from '../components'
 
 const state = reactive({
   selectedTab: 'profile',
@@ -21,7 +21,8 @@ const state = reactive({
     playerName: '',
     bio: ''
   },
-  unreadCount: 0
+  unreadCount: 0,
+  notifications: []
 })
 
 const router = useRouter()
@@ -43,11 +44,17 @@ const fetchData = async () => {
   state.ownRooms = ownRooms.data 
   const participatingRooms = await client.selectParticipatingRooms()
   state.participatingRooms = participatingRooms.data 
+
+  state.notifications = await client.selectNotifications()
 }
 
 const notifyDirectMessages = async () => {
   const count = await client.countUnread()
   state.unreadCount = count
+}
+
+const fetchNotifications = async () => {
+  state.notifications = await client.selectNotifications()
 }
 
 onMounted(async () => {
@@ -57,7 +64,8 @@ onMounted(async () => {
   state.subscriptions = [
     ...state.subscriptions,
     await client.subscribeRooms(fetchData),
-    await client.subscribeDirectMessages(notifyDirectMessages)
+    await client.subscribeDirectMessages(notifyDirectMessages),
+    await client.subscribeNotifications(fetchNotifications)
   ]
 
   if(!store.user) return
@@ -106,6 +114,12 @@ onUnmounted(() => {
             プロフィール
         </button>
         <button
+            :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'notification'}"
+            @click="router.push('/?tab=notification')"
+            class="md:py-2 hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full tracking-wider"> 
+            通知
+        </button>
+        <button
             :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'quiz'}"
             @click="router.push('/?tab=quiz')"
             class="md:py-2 hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full tracking-widest">
@@ -135,6 +149,9 @@ onUnmounted(() => {
             <action-button type="submit" label="部屋を作成する"></action-button>
           </div>
         </form>
+      </div>
+      <div v-show="state.selectedTab === 'notification'" class="p-2">
+        <notification-card :notifications="state.notifications"></notification-card>
       </div>
       <div v-show="state.selectedTab === 'quiz'" class="p-2">
         <div class="text-lg font-bold my-2">AIと遊ぼう</div>

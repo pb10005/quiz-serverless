@@ -1,6 +1,7 @@
 import ActionButton from './ActionButton.vue'
 import Bubble from './Bubble.vue'
 import DirectMessageChat from './DirectMessageChat.vue'
+import NotificationCard from './NotificationCard.vue'
 import PlayerList from './PlayerList.vue'
 import QuizStatus from './QuizStatus.vue'
 import RoomChat from './RoomChat.vue'
@@ -14,6 +15,7 @@ export {
     Bubble,
     DirectMessageChat,
     LinkButton,
+    NotificationCard,
     PlayerList,
     ProfileTab,
     QuizStatus,
