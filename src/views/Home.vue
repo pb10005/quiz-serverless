@@ -31,6 +31,9 @@ const playerName = ref('')
 
 const createRoom = async () => {
   const { data, error } = await client.createRoom(state.newRoom)
+  if(!error) {
+    router.push('/?profile')
+  }
 }
 
 const fetchData = async () => {
