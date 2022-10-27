@@ -602,16 +602,16 @@ export default {
     // notifications
     async selectNotifications() {
         const { data, error } = await supabase
-            .from('notifications')
+            .from('player_notifications')
             .select(`
-                id,
-                type,
-                payload,
-                player_notifications(player_id, created_at, read)
+                notifications(id, type, payload),
+                player_id,
+                created_at,
+                read
             `)
-            .match({'player_notifications.player_id': `${store.user.id}`})
+            .match({'player_id': `${store.user.id}`})
         if(error) {
-            return null
+            return []
         }
         return data
     },
@@ -636,13 +636,13 @@ export default {
                     table: 'player_notifications',
                     filter: `player_id=eq.${store.user.id}`
                 }, handleEvents)
-            .on('postgres_changes',
-                {
-                    event: 'UPDATE',
-                    schema: 'public',
-                    table: 'player_notifications',
-                    filter: `player_id=eq.${store.user.id}`
-                }, handleEvents)
+                .on('postgres_changes',
+                    {
+                        event: 'UPDATE',
+                        schema: 'public',
+                        table: 'player_notifications',
+                        filter: `player_id=eq.${store.user.id}`
+                    }, handleEvents)
             .subscribe()
         return subscription
     },
