@@ -142,6 +142,7 @@ onUnmounted(() => {
           <div>
             <div class="font-bold text-lg my-2">部屋を作成する</div>
             <input type="text" v-model="state.newRoom.title" class="px-3 py-2 h-10 border-0 border-b-2 border-indigo-700 w-full mb-2" placeholder="部屋名" required/>
+            <textarea type="text" v-model="state.newRoom.description" class="px-3 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full mb-2" placeholder="部屋の説明" required/>
             <div class="my-2">
               <label for="default-toggle" class="inline-flex relative items-center mb-4 cursor-pointer">
                 <input type="checkbox" v-model="state.newRoom.is_public" checked id="default-toggle" class="sr-only peer">
