@@ -190,9 +190,9 @@ onUnmounted(() => {
                 <form v-if="!state.currentQuiz || state.currentQuiz.status === '2'" @submit.prevent="submitQuiz" class="bg-white rounded-lg shadow-xl p-4 mb-2 space-y-1">
                     <!-- 出題待ちまたはクイズ終了後 -->
                     <p class="font-bold">問題</p>
-                    <textarea v-model="state.newQuiz.question" class="px-4 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full" placeholder="問題"></textarea>
+                    <textarea v-model="state.newQuiz.question" class="px-4 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full" placeholder="問題" required></textarea>
                     <p class="font-bold">答え</p>
-                    <textarea v-model="state.newQuiz.answer" class="px-4 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full" placeholder="答え"></textarea>
+                    <textarea v-model="state.newQuiz.answer" class="px-4 py-2 h-40 border-0 border-b-2 border-indigo-700 w-full" placeholder="答え" required></textarea>
                     <action-button label="出題する"></action-button>
                 </form>
                 <form v-if="state.currentQuiz?.status === '0'" class="bg-white rounded-lg shadow-xl mb-2 p-4 space-y-1">

@@ -1,6 +1,21 @@
 import { supabase } from './supabase'
 import { store } from './store'
 
+const LOG_TYPE_QUIZ_BEGIN = '01'
+const LOG_TYPE_QUIZ_END = '02'
+const LOG_TYPE_ROOM_CLOSED = '03'
+const LOG_TYPE_ROOM_REOPENED = '04'
+
+const insertRoomLogs = async ({room_id, type, payload}) => {
+    const { error } = await supabase
+        .from('room_logs')
+        .insert({
+            room_id,
+            type,
+            payload
+        })
+    return error
+}
 export default {
     // auth
     async signUp({ email, password }) {
@@ -153,12 +168,19 @@ export default {
         }
     },
     async closeParticipation({ room_id }) {
-        await supabase
+        const { error } = await supabase
             .from('rooms')
             .update({
                 status: '1'
             })
             .match({id: room_id})
+        if(!error) {
+            await insertRoomLogs({
+                room_id,
+                type: LOG_TYPE_ROOM_CLOSED, 
+                payload: ''
+            })
+        }
     },
     async changeRoomVisibility({ room_id, visibility }) {
         await supabase
@@ -169,12 +191,19 @@ export default {
             .match({id: room_id})
     },
     async reopenParticipation({ room_id }) {
-        await supabase
+        const { error } = await supabase
             .from('rooms')
             .update({
                 status: '0'
             })
             .match({id: room_id})
+        if(!error) {
+            const { error } = await insertRoomLogs({
+                room_id,
+                type: LOG_TYPE_ROOM_REOPENED,
+                payload: ''
+            })
+        }
     },
     async subscribeRooms(handleEvents) {
         const subscription = await supabase
@@ -242,15 +271,21 @@ export default {
                 question,
                 quiz_number
             })
+            .select()
         if(error) return
         if(data[0]) {
-            await supabase
+            const { error } = await supabase
                 .from('quiz_hiddens')
                 .insert({
                     id: data[0].id,
                     room_id,
                     answer
                 })
+            await insertRoomLogs({
+                room_id,
+                type: LOG_TYPE_QUIZ_BEGIN,
+                payload: quiz_number.toString()
+            })
         }
     },
     async showAnswer({
@@ -262,13 +297,14 @@ export default {
             .match({ id: quiz_id })
         if(error) return
         if(data.length > 0) {
-            await supabase
+            const quiz = await supabase
                 .from('quizzes')
                 .update({
                     answer: data[0].answer,
                     status: '1'
                 })
                 .match({ id: quiz_id })
+                .select()
         }
     },
     async addHint({
@@ -285,12 +321,22 @@ export default {
     async closeQuiz({
         quiz_id
     }) {
-        await supabase
+        const quiz = await supabase
             .from('quizzes')
             .update({
                 status: '2'
             })
             .match({ id: quiz_id })
+            .select('rooms(id), quiz_number')
+        alert(JSON.stringify(quiz.data))
+        const { error } = await insertRoomLogs({
+            room_id: quiz.data[0].rooms.id,
+            type: LOG_TYPE_QUIZ_END,
+            payload: quiz.data[0].quiz_number.toString()
+        })
+        if(error) {
+            alert(error.message)
+        }
     },
     async getCurrentQuiz({
         room_id
@@ -646,4 +692,26 @@ export default {
             .subscribe()
         return subscription
     },
+    // room logs
+    async selectRoomLogs(roomId) {
+        const { data, error } = await supabase
+            .from('room_logs')
+            .match({'room_id': roomId})
+        if(error) return null
+
+        return data
+    },
+    async subscribeRoomLogs(roomId, handleEvents) {
+        const subscription = await supabase
+            .channel('room_logs')
+            .on('postgres_changes',
+            {
+                event: 'INSERT',
+                schema: 'public',
+                table: 'player_notifications',
+                filter: `room_id=eq.${roomId}`
+            }, handleEvents)
+            .subscribe()
+        return subscription
+    }
 }
