@@ -60,7 +60,12 @@ const fetchData = async () => {
     const room = await client.getRoomById(route.params.id)
     state.room = room.data
     state.currentQuiz = await client.getCurrentQuiz({ room_id: route.params.id })
-    state.roomChats = await client.selectRoomChats({ room_id: route.params.id })
+    state.roomChats = [ 
+        ... await client.selectRoomChats({ room_id: route.params.id }),
+        ... await client.selectRoomLogs({ room_id: route.params.id })
+    ]
+    state.roomChats = state.roomChats.sort((a,b) => new Date(a.created_at) - new Date(b.created_at))
+    
     const players = await client.selectRoomPlayers({room_id: route.params.id})
     state.players = players.data
     const history = await client.getQuizHistories({room_id: route.params.id})

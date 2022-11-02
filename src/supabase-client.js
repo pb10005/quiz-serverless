@@ -328,7 +328,6 @@ export default {
             })
             .match({ id: quiz_id })
             .select('rooms(id), quiz_number')
-        alert(JSON.stringify(quiz.data))
         const { error } = await insertRoomLogs({
             room_id: quiz.data[0].rooms.id,
             type: LOG_TYPE_QUIZ_END,
@@ -693,12 +692,12 @@ export default {
         return subscription
     },
     // room logs
-    async selectRoomLogs(roomId) {
+    async selectRoomLogs({ room_id }) {
         const { data, error } = await supabase
             .from('room_logs')
-            .match({'room_id': roomId})
+            .select()
+            .match({'room_id': room_id})
         if(error) return null
-
         return data
     },
     async subscribeRoomLogs(roomId, handleEvents) {
