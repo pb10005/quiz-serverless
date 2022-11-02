@@ -51,6 +51,10 @@ const fetchData = async () => {
   state.notifications = await client.selectNotifications()
 }
 
+const countUnread = (notifications) => {
+  return notifications?.filter(n => !n.read).length
+}
+
 const notifyDirectMessages = async () => {
   const count = await client.countUnread()
   state.unreadCount = count
@@ -120,7 +124,7 @@ onUnmounted(() => {
             :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'notification'}"
             @click="router.push('/?tab=notification')"
             class="md:py-2 hover:text-white hover:bg-gradient-to-bl hover:from-cyan-500 hover:to-blue-500 border-0 px-3 py-1 w-full tracking-wider"> 
-            通知
+            通知{{countUnread(state.notifications) > 0 ? `(${countUnread(state.notifications)})` : ''}}
         </button>
         <button
             :class="{ 'text-white bg-gradient-to-r from-cyan-500 to-blue-500': state.selectedTab === 'quiz'}"
