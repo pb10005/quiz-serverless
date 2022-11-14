@@ -654,7 +654,7 @@ export default {
                 created_at,
                 read
             `)
-            .match({'player_id': `${store.user.id}`})
+            .match({'player_id': `${store.user?.id}`})
         if(error) {
             return []
         }
