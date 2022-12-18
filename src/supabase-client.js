@@ -109,7 +109,7 @@ export default {
                 title,
                 description,
                 is_public,
-                master_id: store.user.id
+                master_id: store.user?.id
             })
         return {
             data,
@@ -554,7 +554,7 @@ export default {
         const { data, error } = await supabase
             .from('direct_messages')
             .select('id, from_id, to_id, from_name:players!direct_messages_from_id_fkey(player_name), to_name:players!direct_messages_to_id_fkey(player_name), content, read, created_at')
-            .or(`and(from_id.eq.${partner_id}, to_id.eq.${store.user.id}), and(from_id.eq.${store.user.id}, to_id.eq.${partner_id})`)
+            .or(`and(from_id.eq.${partner_id}, to_id.eq.${store.user?.id}), and(from_id.eq.${store.user?.id}, to_id.eq.${partner_id})`)
             .order('created_at', { ascending: true })
         if(error) return null
         return data
@@ -578,7 +578,7 @@ export default {
             .update({
                 'read': true
             })
-            .match({'from_id': partnerId, 'to_id': store.user.id, 'read': false})
+            .match({'from_id': partnerId, 'to_id': store.user?.id, 'read': false})
         if(error) {
             console.log('Error', error)
         }
@@ -604,42 +604,42 @@ export default {
                     event: 'INSERT',
                     schema: 'public',
                     table: 'direct_messages',
-                    filter: `from_id=eq.${store.user.id}`
+                    filter: `from_id=eq.${store.user?.id}`
                 }, handleEvents)
             .on('postgres_changes',
                 {
                     event: 'INSERT',
                     schema: 'public',
                     table: 'direct_messages',
-                    filter: `to_id=eq.${store.user.id}`
+                    filter: `to_id=eq.${store.user?.id}`
                 }, handleEvents)
             .on('postgres_changes',
                 {
                     event: 'UPDATE',
                     schema: 'public',
                     table: 'direct_messages',
-                    filter: `from_id=eq.${store.user.id}`
+                    filter: `from_id=eq.${store.user?.id}`
                 }, handleEvents)
             .on('postgres_changes',
                 {
                     event: 'UPDATE',
                     schema: 'public',
                     table: 'direct_messages',
-                    filter: `to_id=eq.${store.user.id}`
+                    filter: `to_id=eq.${store.user?.id}`
                 }, handleEvents)
             .on('postgres_changes',
                 {
                     event: 'DELETE',
                     schema: 'public',
                     table: 'direct_messages',
-                    filter: `from_id=eq.${store.user.id}`
+                    filter: `from_id=eq.${store.user?.id}`
                 }, handleEvents)
             .on('postgres_changes',
                 {
                     event: 'DELETE',
                     schema: 'public',
                     table: 'direct_messages',
-                    filter: `to_id=eq.${store.user.id}`
+                    filter: `to_id=eq.${store.user?.id}`
                 }, handleEvents)
             .subscribe()
         return subscription
@@ -654,7 +654,7 @@ export default {
                 created_at,
                 read
             `)
-            .match({'player_id': `${store.user.id}`})
+            .match({'player_id': store.user?.id})
         if(error) {
             return []
         }
@@ -666,7 +666,7 @@ export default {
             .update({
                 'read': true
             })
-            .match({'notification_id': id, 'player_id': store.user.id, 'read': false})
+            .match({'notification_id': id, 'player_id': store.user?.id, 'read': false})
         if(error) {
             console.log('Error', error)
         }
@@ -679,14 +679,14 @@ export default {
                     event: 'INSERT',
                     schema: 'public',
                     table: 'player_notifications',
-                    filter: `player_id=eq.${store.user.id}`
+                    filter: `player_id=eq.${store.user?.id}`
                 }, handleEvents)
                 .on('postgres_changes',
                     {
                         event: 'UPDATE',
                         schema: 'public',
                         table: 'player_notifications',
-                        filter: `player_id=eq.${store.user.id}`
+                        filter: `player_id=eq.${store.user?.id}`
                     }, handleEvents)
             .subscribe()
         return subscription
